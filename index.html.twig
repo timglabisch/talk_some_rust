@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/simple.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/idea.css">
+
+		<script src="jquery-3.0.0.min.js"></script>
+
+		<style>
+			iframe {
+				max-width: 100% !important;
+			}
+
+			pre {
+				box-shadow: none !important;
+			}
+
+			.right-code {
+				border-left: 1px solid silver !important;
+			}
+
+			section img {
+				border: 1px solid #ccc !important;
+			}
+		</style>
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<script type="application/javascript">
+            $(document).ready(function() {
+                $('.editor').each(function (i, v) {
+
+                    $(v).css({
+                        'height': $(document).height() - 100,
+                        'border': '1px solid silver',
+                        'display': 'flex',
+                        'justify-content': 'flex-start'
+                    });
+
+                    var rust_pen = "http://127.0.0.1:5000";
+                    //var rust_pen = "https://play.rust-lang.org/";
+
+                    var rust_code = $(v).data('code-rust');
+
+
+                    var php_code = $(v).data('code-php');
+
+
+                    $(v).html('');
+
+                    $(v).append($('<iframe style="flex: 1 1 auto;overflow:scroll"/>').attr('src', rust_pen + '/?pageMode=presentation&code=' + encodeURI(rust_code)));
+
+
+                    if (!php_code.trim()) {
+                        return;
+                    }
+
+                    var php_code_node = $('<div class="right-code"><pre><code data-trim data-noescape class="code"></code></pre></div>');
+                    php_code_node.find('.code').text(php_code);
+                    $(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(php_code_node));
+
+                });
+
+                $('.editor > *').each(function(i, v) {
+                    //$(v).css('margin', '10px');
+                }).mouseenter(function(e) {
+                    $(e.target).css('flex', '95 1 auto');
+                    $(e.target).siblings().css('width', 100);
+                    $(e.target).siblings().css('flex', '1 1 auto');
+                })
+                    .mouseleave(function(e) {
+                        $(e.target).css('flex', '1 1 auto');
+                        $(e.target).css('width', '');
+                        $(e.target).siblings().css('width', '');
+                    });
+            });
+
+
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                        {% block rust %}
+pub fn main() {
+	println!();
+}
+                        {% endblock %}
+
+                        {% block php %}
+<?php
+
+echo "foo";
+                        {% endblock %}
+                    {% endembed %}
+
+				</section>
+
+					<section>
+						<img src="img/me.jpeg" style="max-width:200px"><br/>
+						<i>@timglabisch</i>
+						<br/>
+						<img src="img/github_stats.png" style="max-width:370px"/>
+						<aside class="notes">
+							<ul>
+								<li>Ich bin Tim</li>
+								<li>Wer schonmal hier aus der UG war und nicht über mich hinweg gesehen hat, hat mich bestimmt schonmal gesehen</li>
+								<li>
+									... Und Github denkt ich würde in diesen Sprachen entwickeln
+									<ul>
+										<li>Das ist definitiv falsch, ich mach kein Basic x)</li>
+										<li>und CSS ist dieser Talk ^^</li>
+										<li>gibt aber vielleicht ein ganz guten Überblick über meinen "sprachlichen" Background</li>
+									</ul>
+								</li>
+								<li>
+									Ich arbeite hier für Sensiolabs als Architekt, habe demnach einen starken PHP und Symfony Background
+								</li>
+
+								<li>
+									Der Titel des Talks war ja Rust für PHP Devs
+									<ul>
+										<li>In diesem Sinne hab ich heute viel Code mitgebracht</li>
+										<li>Ich hab aber auch viele Slides mitgebracht</li>
+										<li>Sollte ich euch deutlich zu schnell werden, einfach aufschreien oder mit irgendwas nach mir werfen.</li>
+										<li>
+											Die Slides stelle ich online
+											<ul>
+												<li>Wenn man den Talk gewissenhaft nacharbeitet, kann man einige Stunden damit verbringen</li>
+												<li>... und das ist gewollt so...</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section>
+                        {% embed "twig/editor.html.twig" %}
+                        {% block rust %}
+pub fn main() {
+	println!("Hello, rust!");
+}
+                        {% endblock %}
+
+                        {% block php %}
+// kotlin
+fun main(args: Array<String>) {
+	println("Hello, kotlin!")
+}
+                        {% endblock %}
+                    {% endembed %}
+
+				</section>
+
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+                width: "100%",
+                height: "100%",
+                margin: 0,
+                minScale: 1,
+                maxScale: 1,
+                history: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

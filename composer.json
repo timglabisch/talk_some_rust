@@ -1,0 +1,12 @@
+{
+    "name": "tim/talk_some_rust",
+    "require": {
+        "twig/twig": "^2.4"
+    },
+    "authors": [
+        {
+            "name": "timglabisch",
+            "email": "tim@ainfach.de"
+        }
+    ]
+}
