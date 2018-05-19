@@ -171,6 +171,7 @@ echo "Hello Rheinjug!";
 						{% endblock %}
 					{% endembed %}
 
+					</section>
 					<section>
                         {% embed "twig/editor.html.twig" %}
                         {% block rust %}
@@ -195,19 +196,19 @@ echo(sprintf("%s", "Hello Rheinjug!"));
                         {% endblock %}
                     {% endembed %}
 
-							<aside class="notes">
-								<ul>
-									<li>nimmt man 3 sprachen, so hat man 3 unterschiedliche implementierungen was strings angeht.</li>
-									<li>in rust gibt es 4 string typen, klassische sind strings immer utf8 und mutable</li>
-									<li>strings in kotlin sind nicht mutable und nutzen wie java utf-16,  das default defaultCharset ist allerdings utf8. es gibt im issue tracker eine diskussion auf utf-8 zu wechseln.</li>
-									<li>strings in php sind byte sequenzen. php6 ist dran gecheitert.</li>
-									<li>
-										wenn ihr bei php genau guckt, mal hab ich das echo mit klammern geschrieben, mal ohne.
-										das ist eine besonderhet in php, echo ist ein eigener opcode.
-										schaut man auf die rust implementierung siehst man das ausrufezeichen. Dabei handelt es sich nicht um ein sprachkonstrukt, sondern um ein macro.
-									</li>
-								</ul>
-							</aside>
+						<aside class="notes">
+							<ul>
+								<li>nimmt man 3 sprachen, so hat man 3 unterschiedliche implementierungen was strings angeht.</li>
+								<li>in rust gibt es 4 string typen, klassische sind strings immer utf8 und mutable</li>
+								<li>strings in kotlin sind nicht mutable und nutzen wie java utf-16,  das default defaultCharset ist allerdings utf8. es gibt im issue tracker eine diskussion auf utf-8 zu wechseln.</li>
+								<li>strings in php sind byte sequenzen. php6 ist dran gecheitert.</li>
+								<li>
+									wenn ihr bei php genau guckt, mal hab ich das echo mit klammern geschrieben, mal ohne.
+									das ist eine besonderhet in php, echo ist ein eigener opcode.
+									schaut man auf die rust implementierung siehst man das ausrufezeichen. Dabei handelt es sich nicht um ein sprachkonstrukt, sondern um ein macro.
+								</li>
+							</ul>
+						</aside>
 				</section>
 
 				<section>
@@ -282,14 +283,24 @@ fun main(args: Array<String>) {
 					{% endblock %}
 					{% endembed %}
 
-						<aside class="notes">
-							<ul>
-								<li>todo</li>
-							</ul>
-						</aside>
+					<aside class="notes">
+						<ul>
+							<li>In Rust definieren wir ein Strukt mit einer Property. in Kotlin eine Klasse.</li>
+							<li>Strukts haben felder, Klassen haben properties</li>
+							<li>
+								Jede sprache hat eine andere ideologie. Sieht man z.b. daran:
+								Kotlin ist public by default, Rust ist private by default.
+								<ul>
+									<li>Kotlin ist eher pragmatisch</li>
+									<li>Rust versucht extrem korrekt und expliizit zu ein. werden wir noch öfters sehen.</li>
+									<li>anderes beispiel, wir hatten eben da expect beim wandeln in utf8.</li>
+								</ul>
+							</li>
+						</ul>
+					</aside>
 				</section>
 
-<section>
+				<section>
 					{% embed "twig/editor.html.twig" %}
 					{% block rust %}
 struct Person {
@@ -333,12 +344,154 @@ fun main(args: Array<String>) {
 						<aside class="notes">
 							<ul>
 								<li>hier das gleiche beipiel mit einem getter.</li>
-								<li>hier das gleiche beipiel mit einem getter.</li>
+								<li>
+                                    hier sieht man deutliche unterschiede
+                                    <ul>
+                                        <li>Kotlin code ist weniger</li>
+                                        <li>Rust kennt keinen Konstruktur, ist einfach eine statische methode, welche eine Instanz zurückgibt.</li>
+										<li>Rust hat keine echten klassen, sieht mehr aus wie golang (impl für ein strukt)</li>
+										<li>Rust trennt zustand (properties) von Funktionen.</li>
+										<li>
+											Rust nimmt speichermanagement extrem genau, sehen wir später noch.
+											<ul>
+												<li>
+													in kotlin -> Person ist eine Instanz einer Klasse welche im Heap liegt.
+												</li>
+												<li>
+													In Rust ist Person eine Datenstruktur der Größe Integer, welche auf dem Stack liegt. Kein Refcounting etc. Wer weiß, was refcounting ist? später mehr dazu.
+												</li>
+											</ul>
+										</li>
+                                    </ul>
+                                </li>
 							</ul>
 						</aside>
 				</section>
 
+				<section>
+					<img src="img/more_than_a_hype.jpg" />
+					<aside class="notes">
+						<ul>
 
+							<li>wenn man sich in projekten anguckt fühlt man sich mitlerweilse oft so.</li>
+							<li>unsere technologielandschaft ähnelt in vielen Projekten oft eher einem Abenteuerspielplatz als einem enterprise projekt</li>
+
+							<!--
+							<li>
+								da ganze hat 2 seiten
+								<ul>
+									<li>wir lernen grade software so zu implementieren, dass diese komponenten isoliert und wegwerfbar sind.</li>
+									<li>software ist heute mehr wie eine PET-Flasche, man nuckelt dran und wirft ie weg.</li>
+									<li>recruiting spielt da auch mit rein, viele wollen schlicht ausprobieren können.</li>
+									<li>probiert man nicht aus, sammelt man keine erfahrung</li>
+									<li>kunst liegt darin, gefahrlos auszuprobieren</li>
+								</ul>
+								<ul>
+									<li></li>
+								</ul>
+							</li>
+							-->
+
+							<li>agile herangehensweisen machen es einfach mal was neues in ein projekt zu werfen, hype driven development ist gang und gebe</li>
+							<li>die meisten entwickler haben mehr ajvascript frameworks selbst gebau, als das sie algorithmen implementieren können - so ist das eben heute, und ich finds auch nicht schlimm.</li>
+							<li>in den letzten paar jahren ist die menge an technologien pro projekt extrem gestiegen, frameworks werden komplexer u.s.w.</li>
+							<li>... und nun stelle ich euch mal wieder eine neue technologie vor, welche neue Hoffnung bringen soll. wie jede andere technologie mit der man sich rumschlägt.</li>
+
+							<li>in dem talk möchte ich euch näher bringen, warum ich der meinung bin, dass rust nicht in dieses pattern fällt.</li>
+							<li>-> schauen wir uns dazu mal die rust startseite an.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img src="img/rust_lang_org_startpage1.png" />
+					<aside class="notes">
+						<aside class="notes">
+							<ul>
+								<li>Da schon wieder der Begriff system programming</li>
+								<li>ist das kotlin auch? wohl eher web programming, mhhmm</li>
+								<li>und rust will "schnell" sein</li>
+								<li>ok, nichts neues, das sind C und C++ z.b. auch. und schnell ist ja eh relativ</li>
+							</ul>
+						</aside>
+					</aside>
+				</section>
+					
+				<section>
+					<img src="img/system_prgramming_languages.png">
+					<a href="https://en.wikipedia.org/wiki/System_programming_language">wikipedia.org/wiki/System_programming_language</a>
+					<aside class="notes">
+						<ul>
+							<li>wikipedia listet 15 system programming languages</li>
+							<li>das sind echt wenig sprachen, oder? wenn man mal danach schau, in welchen sprachen tatsächlich betriebsysteme / treiber geschrieben werden, wird die liste kürzer.</li>
+							<li>ich bin ehrlich gesagt über swift gestolpert, weil es für mich keine wirkliche system programming language ist.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img src="img/swift_system_programming.png">
+					<a href="https://www.quora.com/Is-Swift-a-great-systems-programming-language">quora.com/Is-Swift-a-great-systems-programming-language</a>
+				</section>
+
+				<section>
+					<img src="img/language_ranking.png">
+					<img src="img/language_ranking_tiobe.png">
+					<aside>
+						schaut man mal welche sprachen tatsächlich viel genutzt werden.
+						das ist krass, C und C++ sidn uralt und unter den ersten Plätzen.
+
+					</aside>
+				</section>
+
+
+				<section>
+					<aside>
+						<ul>
+							D auf rang 31
+							C auf rang 2
+							C++ auf rang 3
+							Ada auf rang 24
+						</ul>
+					</aside>
+				</section>
+
+
+				<section>
+					<img src="img/rust_lang_org_startpage2.png">
+					<aside>
+						<ul>
+							<li>prevents segfaults - kennt jemand segfaults?</li>
+							<li>
+								ich programmiere viel php, da sieht man schonmal häufig segfaults. php ist in C geschrieben.
+								<ul>
+									<li>PHP Intern sind und kein spass zum Debuggen machen</li>
+									<li>hab ich häufiger mal wenn ich gewaltige tests suits laufen lasse</li>
+									<li>
+										Wäre PHP also in Rust geschrieben, dann könnte es diese art von Fehlern nicht geben?
+										<ul>
+											<li>Krass</li>
+											<li>Absolutes alleinstellungsmerkmal unter "System programming" sprachen.</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li>
+								thread safety ist auch so ne sache
+								<ul>
+									<li>Threading ist hart</li>
+									<li>Rust ist die erste sprache, welche thread safety erzwingen kann</li>
+								</ul>
+							</li>
+							<li>
+								Wie macht rust das alles?
+								<ul>
+									<li>Es kompilliert schlicht nicht, wenn es sich nicht sicher ist.</li>
+								</ul>
+							</li>
+						</ul>
+					</aside>
+				</section>
 
 				<section>
 					<img src="img/me.jpeg" style="max-width:200px"><br/>
