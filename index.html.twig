@@ -161,7 +161,6 @@ fn main() {
 
                         {% block php %}
 // kotlin
-import java.nio.charset.Charset
 
 fun main(args: Array<String>) {
 	System.out.println("hello Rheinjug!");
@@ -258,6 +257,88 @@ greet($name);
 							</ul>
 						</aside>
 				</section>
+
+				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+struct Person {
+	pub age: i32
+}
+
+pub fn main() {
+	let tim = Person { age: 25 };
+	println!("tim is {} years old", tim.age);
+}
+					{% endblock %}
+
+					{% block php %}
+class Person(val age : Int);
+
+fun main(args: Array<String>) {
+	val tim = Person(25);
+	System.out.println("tim is " + tim.age + " years old")
+}
+
+					{% endblock %}
+					{% endembed %}
+
+						<aside class="notes">
+							<ul>
+								<li>todo</li>
+							</ul>
+						</aside>
+				</section>
+
+<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+struct Person {
+	age: i32
+}
+
+impl Person {
+	pub fn new(age: i32) -> Self {
+		Person {
+			age
+		}
+	}
+
+	pub fn get_age(&self) -> i32 {
+		self.age
+	}
+}
+
+pub fn main() {
+	let tim = Person::new(25);
+	println!("tim is {} years old", tim.get_age());
+}
+					{% endblock %}
+
+					{% block php %}
+class Person(private val age : Int) {
+	fun getAge(): Int {
+		return this.age;
+	}
+}
+
+fun main(args: Array<String>) {
+	val tim = Person(25);
+	System.out.println("tim is " + tim.getAge() + " years old")
+}
+
+
+					{% endblock %}
+					{% endembed %}
+
+						<aside class="notes">
+							<ul>
+								<li>hier das gleiche beipiel mit einem getter.</li>
+								<li>hier das gleiche beipiel mit einem getter.</li>
+							</ul>
+						</aside>
+				</section>
+
+
 
 				<section>
 					<img src="img/me.jpeg" style="max-width:200px"><br/>
