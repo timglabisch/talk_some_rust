@@ -154,22 +154,122 @@ echo "foo";
 					<section>
                         {% embed "twig/editor.html.twig" %}
                         {% block rust %}
-pub fn main() {
-	println!("Hello, rust!");
+fn main() {
+	println!("hello, Rheinjug!");
 }
                         {% endblock %}
 
                         {% block php %}
 // kotlin
+import java.nio.charset.Charset
+
 fun main(args: Array<String>) {
-	println("Hello, kotlin!")
+	System.out.println("hello Rheinjug!");
 }
+
+// php
+echo "Hello Rheinjug!";
+						{% endblock %}
+					{% endembed %}
+
+					<section>
+                        {% embed "twig/editor.html.twig" %}
+                        {% block rust %}
+fn main() {
+	let a: &[u8] = b"hello, Rheinjug!";
+	println!("{}", ::std::str::from_utf8(a).expect("i am sure it's valid utf8"));
+}
+                        {% endblock %}
+
+                        {% block php %}
+// kotlin
+import java.nio.charset.Charset
+
+fun main(args: Array<String>) {
+	val a = "Hello Rheinjug".toByteArray(Charset.defaultCharset());
+	System.out.println(String.format("%s", a.toString(Charset.defaultCharset())));
+}
+
+// php
+echo(sprintf("%s", "Hello Rheinjug!"));
+
                         {% endblock %}
                     {% endembed %}
 
+							<aside class="notes">
+								<ul>
+									<li>nimmt man 3 sprachen, so hat man 3 unterschiedliche implementierungen was strings angeht.</li>
+									<li>in rust gibt es 4 string typen, klassische sind strings immer utf8 und mutable</li>
+									<li>strings in kotlin sind nicht mutable und nutzen wie java utf-16,  das default defaultCharset ist allerdings utf8. es gibt im issue tracker eine diskussion auf utf-8 zu wechseln.</li>
+									<li>strings in php sind byte sequenzen. php6 ist dran gecheitert.</li>
+									<li>
+										wenn ihr bei php genau guckt, mal hab ich das echo mit klammern geschrieben, mal ohne.
+										das ist eine besonderhet in php, echo ist ein eigener opcode.
+										schaut man auf die rust implementierung siehst man das ausrufezeichen. Dabei handelt es sich nicht um ein sprachkonstrukt, sondern um ein macro.
+									</li>
+								</ul>
+							</aside>
 				</section>
 
+				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+pub fn greet(name : String) {
+	println!("Hello {}", name);
+}
 
+pub fn main() {
+	let name = "Rheinjug".to_string();
+	greet(name);
+}
+					{% endblock %}
+
+					{% block php %}
+// kotlin
+private fun greet(name : String) {
+	System.out.println("Hello " + name);
+}
+
+fun main(args: Array<String>) {
+	val name = "Rheinjug";
+	greet(name)
+}
+
+// php
+function greet(string $name) {
+	echo sprintf(
+		"Hello %s", $name
+	);
+}
+
+$name = "PHPUG";
+greet($name);
+
+
+
+					{% endblock %}
+					{% endembed %}
+
+						<aside class="notes">
+							<ul>
+								<li>Hier sehen wir eine Funktion welche aufgerufen wird (greet)</li>
+								<li>Typisierung der Funktion (String) ist steht auf der rechten seite Kotlin und Rust machen dies identisch. Java und PHP nicht.</li>
+								<li>ich werde für den Moment noch nicht auf das .to_string() eingehen, vielleicht schaffen wir das gleich noch</li>
+							</ul>
+						</aside>
+				</section>
+
+				<section>
+					<img src="img/me.jpeg" style="max-width:200px"><br/>
+					<i>@timglabisch</i>
+					<br/>
+					<img src="img/github_stats.png" style="max-width:370px"/>
+					<aside class="notes">
+						<ul>
+							<li>Ich bin Tim</li>
+						</ul>
+					</aside>
+				</section>
 			</div>
 		</div>
 

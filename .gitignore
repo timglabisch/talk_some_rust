@@ -13,3 +13,6 @@ css/reveal.min.css
 js/reveal.min.js
 /vendor/
 index.html
+lib/*.jar
+*.iml
+**/target/*
