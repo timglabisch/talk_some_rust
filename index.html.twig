@@ -61,10 +61,10 @@
 
                     $(v).html('');
 
-                    $(v).append($('<iframe style="flex: 1 1 auto;overflow:scroll"/>').attr('src', rust_pen + '/?pageMode=presentation&code=' + encodeURI(rust_code)));
+                    $(v).append($('<iframe style="flex: 1 1 auto;overflow:scroll"/>').attr('src', rust_pen + '/?pageMode=presentation&code=' + encodeURIComponent(rust_code)));
 
 
-                    if (!php_code.trim()) {
+                    if (!php_code || !php_code.trim()) {
                         return;
                     }
 
@@ -431,27 +431,48 @@ fun main(args: Array<String>) {
 
 				<section>
 					<img src="img/swift_system_programming.png">
-					<a href="https://www.quora.com/Is-Swift-a-great-systems-programming-language">quora.com/Is-Swift-a-great-systems-programming-language</a>
+					<br/>
+					<small>
+						<a href="https://www.quora.com/Is-Swift-a-great-systems-programming-language">quora.com/Is-Swift-a-great-systems-programming-language</a>
+					</small>
 				</section>
 
 				<section>
-					<img src="img/language_ranking.png">
-					<img src="img/language_ranking_tiobe.png">
-					<aside>
+					<img src="img/language_ranking_with_tiobe.png">
+					<aside class="notes">
 						schaut man mal welche sprachen tatsächlich viel genutzt werden.
-						das ist krass, C und C++ sidn uralt und unter den ersten Plätzen.
+						das ist krass, C und C++ sind uralt und unter den ersten Plätzen.
 
 					</aside>
 				</section>
 
 
 				<section>
-					<aside>
+					<img src="img/swift_system_programming.png">
+					<br/>
+					<small>
+						<a href="https://www.quora.com/Is-Swift-a-great-systems-programming-language">quora.com/Is-Swift-a-great-systems-programming-language</a>
+					</small>
+				</section>
+
+				<section>
+					<img src="img/system_prgramming_languages_reduced.png">
+					<aside class="notes">
+						schaut man welche sprache heute tatsächlich noch relevanz haben, landet man meiner Meinung nach bei 3 Sprachen.
+						Swift hatte ich raus genommen, weil ich es nicht als Konkurrent zu C / C++ sehe.
+
+					</aside>
+				</section>
+
+				<section>
+					<img src="img/more_than_a_hype.jpg" />
+					<aside class="notes">
 						<ul>
-							D auf rang 31
-							C auf rang 2
-							C++ auf rang 3
-							Ada auf rang 24
+
+							<li>nun sieht man, dass es in dem bereich garnicht soviel gibt.</li>
+							<li>nun könnte man sagen, ich will garkein C und C++ lernen, wofür dann rust?</li>
+							<li>die 31 Jahre zeigen wie schwer es ist.</li>
+							<li>mozilla hat rund 6 jahre forschung in die reinen sprachkonzepte gesteckt.</li>
 						</ul>
 					</aside>
 				</section>
@@ -459,7 +480,7 @@ fun main(args: Array<String>) {
 
 				<section>
 					<img src="img/rust_lang_org_startpage2.png">
-					<aside>
+					<aside class="notes">
 						<ul>
 							<li>prevents segfaults - kennt jemand segfaults?</li>
 							<li>
@@ -491,6 +512,627 @@ fun main(args: Array<String>) {
 							</li>
 						</ul>
 					</aside>
+				</section>
+
+
+
+				<section>
+					<img src="img/cartoon_c.png" />
+					<br/>
+					<small>
+						<a href="http://leftoversalad.com/c/015_programmingpeople/">leftoversalad.com/c/015_programmingpeople</a>
+					</small>
+					<aside class="notes">
+						<ul>
+
+							<li>...</li>
+						</ul>
+					</aside>
+				</section>
+
+
+				<section>
+					<img src="img/cartoon_rust.png" style="max-height: 100%"/>
+					<br/>
+					<small>
+						<a href="http://leftoversalad.com/c/015_programmingpeople/">leftoversalad.com/c/015_programmingpeople</a>
+					</small>
+					<aside class="notes">
+						<ul>
+
+							<li>nun sieht man, dass es in dem bereich garnicht soviel gibt.</li>
+							<li>nun könnte man sagen, ich will garkein C und C++ lernen, wofür dann rust?</li>
+							<li>die 31 Jahre zeigen wie schwer es ist.</li>
+							<li>mozilla hat rund 6 jahre forschung in die reinen sprachkonzepte gesteckt.</li>
+						</ul>
+					</aside>
+				</section>
+
+
+				<section>
+					<img src="img/rust_spoils_me.png"/>
+					<br/>
+					<small>
+						<a href="https://twitter.com/gilescope/status/992309474881822720">twitter.com</a>
+					</small>
+				</section>
+
+				<section>
+					<img src="img/rust_spoils_me2.png"/>
+					<br/>
+					<small>
+						<a href="https://twitter.com/gilescope/status/992309474881822720">twitter.com</a>
+					</small>
+				</section>
+
+				<section>
+					<h3>das tolle an Rust, sind dessen einschränkungen.</h3>
+					<aside class="notes">
+						<ul>
+
+							<li>hört sich paradox an. wenn man drüber nachdenkt ergeben sich aus einschränkungen aber idr. Möglichkeiten.</li>
+							<li></li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+pub fn greet(name : String) {
+	println!("Hello {}", name);
+}
+
+pub fn main() {
+	let name = "Rheinjug".to_string();
+	greet(name);
+}
+					{% endblock %}
+
+					{% block php %}
+// kotlin
+private fun greet(name : String) {
+	System.out.println("Hello " + name);
+}
+
+fun main(args: Array<String>) {
+	val name = "Rheinjug";
+	greet(name)
+}
+
+// php
+function greet(string $name) {
+	echo sprintf(
+	"Hello %s", $name
+	);
+}
+
+$name = "PHPUG";
+greet($name);
+
+					{% endblock %}
+					{% endembed %}
+
+					<aside class="notes">
+						<ul>
+							<li>Beispiel von eben.</li>
+							<li><span style="font-style: italic">greet kopieren.</span></li>
+							<li>Wer kennt eine sprache in der das problematisch wäre?</li>
+							<li>
+								jemand eine idee warum rust das verbietet?
+								<ul>
+									<li></li>
+								</ul>
+							</li>
+							<li>jemand eine idee wie man das fixen könnte?</li>
+							<li>die einfachste variante wäre den String wieder zurückzugeben. Keine angst, geht auch eleganter</li>
+							<li>string wieder zurückzugeben sieht doof aus, ist aber ultra performant, rust kann den code inlinen und quasi komplett entfernen.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img src="img/ownership_in_c.png"><br/>
+					<aside class="notes">
+						<ul>
+							<li>Die Folie hab ich geklaut, hätte ich gerne verlinkt, link geht aber nicht mehr :)</li>
+							<li>welche sprache ist das? - C natürlich</li>
+							<li>wem von euch ist das problem klar?</li>
+							<li>C und C++ haben grauenhafte methodensignaturen, weil sie idr. den RAM nicht selbst allocieren können.</li>
+							<li>die frage ist immer wer das free() aufruft. in so kleinen anwendungen ist das kein Problem, ist man aber Mozilla, und hat millionen zeilen C++ code siehts übel aus.</li>
+							<li>in c++ werden gerne smartpointer verwendet, bringen aber auchnachteile</li>
+							<li>rust braucht dies hier nicht, ists unsicher, sagt der compiler schlicht nein. Performance ist besser als wenn man einen solchen smartpointer verwendet.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+pub fn greet(name : &String) {
+	println!("Hello {}", name);
+}
+
+pub fn main() {
+	let name = "Rheinjug".to_string();
+	greet(&name);
+}
+					{% endblock %}
+					{% endembed %}
+
+
+					<aside class="notes">
+						<ul>
+							<li>wir können eine Referenz übergeben.</li>
+							<li>würden wir einen String übergeben. würde die Funktion diesen String besitzen. der Besitzer gibt den String wieder frei.</li>
+							<li>Referenzen müssen nicht freigegeben werden. Irgendwo muss ja ein besitzer sein, und dieser wird diesen garantiert freigeben.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+#![inline(always)]
+pub fn greet(name : &str) {
+	println!("Hello {}", name);
+}
+
+pub fn main() {
+	let name = "Rheinjug";
+	greet(&name);
+}
+					{% endblock %}
+					{% endembed %}
+
+
+					<aside class="notes">
+						<ul>
+							</ul>
+					</aside>
+				</section>
+					
+				<section>
+					<small>
+						<a href="https://rustup.rs">https://rustup.rs</a>
+					</small>
+					<br/>
+					<img src="img/rustup.png" style="max-width: 50%">
+				</section>
+
+				<section>
+					<img src="img/cargo_new_project.png">
+					<aside class="notes">
+						<ul>
+							<li>cargo new legt euch ein neues projekt an</li>
+							<li>--bin steht für binary, ohne wäre es eine statische lib.</li>
+							<li>er initialisiert euch auch gleich ein git repo mit passender .gitignore</li>
+							<li>cargo run baut das projekt und lässt es im debug mode laufen.</li>
+							<li>cargo kümmert sich auch ums dependencymanagement.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>cargo</h2>
+					<p>
+						Cargo.toml / Cargo.lock
+					</p>
+					<img src="img/cargo_toml.png">
+					<aside class="notes">
+						<ul>
+							<li>kein GOPATH oder sowas. Semver, lockfiles u.s.w.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>intellij</h2>
+					<img src="img/intelli_rust.png">
+					<aside class="notes">
+						<ul>
+							<li>support ist erschreckend gut. selbst macros etc.</li>
+							<li>externe bibliotheken etc sind kein problem.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>RLS</h2>
+					<img src="img/rust_language_server.jpg">
+					<aside class="notes">
+						<ul>
+							<li>Rust kommt mit einem language server, funktioniert wie z.b. bei typeskript und hat daher guten support für visual stio code</li>
+							<li>Compiler selbst gibt outocompletion etc. funktioniert sehr gut und wird immer besser.</li>
+							<li>refactorings direkt im compiler, stimmen immer! :)</li>
+							<li>intelli rust nutzt den language server nicht.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>namespaces / finding classes</h2>
+					todo
+				</section>
+
+				<section>
+					<h3>Tests</h3>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+pub fn add_two(a: i32) -> i32 {
+	a + 2
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[test]
+	fn it_works() {
+		assert_eq!(4, add_two(2));
+	}
+}
+                    {% endblock %}
+                    {% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>cargo doc generiert api docs</li>
+							<li>beste api docs die ich kenne (mit suchfunktion)</li>
+							<li>api docs fürs ganze projekt</li>
+							<li>code beispiele werden als tests ausgeführt.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Lets write a webserver</h3>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+#![feature(plugin)]
+#![plugin(rocket_codegen)]
+
+extern crate rocket;
+
+#[get("/")]
+fn index() -> &'static str {
+	"Hello, world!"
+}
+
+fn main() {
+	rocket::ignite().mount("/", routes![index]).launch();
+}
+                    {% endblock %}
+                    {% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>gutes beispiel, sieht nicht so "low level" aus?</li>
+							<li></li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img src="img/rust_more_control_more_safety.png">
+					<aside class="notes">
+						<ul>
+							<li>rust fühlt sich von den sprachkonstrukten nicht so low level an</li>
+							<li>oft musst man bei sprachen zwischen controller und sicherheit wählen, rust versucht hier beides zu bieten.</li>
+							<li>es dreht sich hier nur um controller / sicherheit.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+
+	let a;
+
+	if true {
+		a = "Ja";
+	} else {
+		a = "Nein";
+	}
+
+	println!("{}", a);
+}
+                    {% endblock %}
+                    {% endembed %}
+					<aside class="notes">
+						etliche variationen (unitialisiert / if return value))
+						Rust -> safe
+					</aside>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+
+	let names = vec![
+		"Tim",
+		"Chris",
+		"Freerich"
+	];
+
+	println!("{}", names.join(", "));
+}
+
+
+                    {% endblock %}
+                    {% endembed %}
+					<aside class="notes">
+						einfache arrays ...
+					</aside>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+
+	let mut names = vec![];
+	names.push("Tim");
+	names.push("Chris");
+	names.push("Freerich");
+
+	println!("{}", names.join(", "));
+}
+                    {% endblock %}
+                    {% endembed %}
+					<aside class="notes">
+						arrays sind "veränderbar" nicht so wie bei c
+
+
+						Compiler Warnung bei:
+
+						fn main() {
+
+						let mut names = Vec::new();
+
+						println!("{}", names.join(", "));
+						}
+					</aside>
+				</section>
+
+				<section>
+
+
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+#[derive(Debug)]
+struct BlogPost;
+
+fn get_blog_post_by_uuid(uuid : &str) -> Option<BlogPost> {
+	if uuid == "1234-abcdef" {
+		return Some(BlogPost {});
+	}
+
+	None
+}
+
+fn main() {
+	println!("{:?}", get_blog_post_by_uuid("1234-abcdef"));
+}
+					{% endblock %}
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>Rust kennt kein "Null"</li>
+							<li>Rust kennt nur "options"</li>
+							<li>kann das sein, oder nichts</li>
+							<li>Prüft man nicht, sondern ruft einfach "unwrap" auf einer option auf, so panict im zweifel das programm und ist beendet</li>
+							<li>das programm ist somit nie in einem "komischen" zustand</li>
+							<li>benutzt man unwrap nicht, kann das programm in keinen dieser zustände kommen</li>
+							<li>wer würde schon ein herzschrittmacher in php entwickeln?</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+
+
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+fn get_blog_post_by_uuid(uuid : &str) -> Option<BlogPost> {
+	if uuid == "1234-abcdef" {
+		return Some(BlogPost {});
+	}
+
+	None
+}
+
+fn main() {
+	println!("{:?}", get_blog_post_by_uuid("1234-abcdef").trim());
+}
+					{% endblock %}
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>foo</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+
+
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+extern crate reqwest;
+
+pub fn fetch_google() -> String {
+	reqwest::get("https://www.rust-lang.org")
+		.unwrap()
+		.text()
+		.unwrap()
+}
+
+pub fn main() {
+	println!("{:#?}", &fetch_google());
+}
+					{% endblock %}
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>foo</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+extern crate reqwest;
+
+pub fn fetch_google() -> Result<String, String> {
+	match reqwest::get("https://www.rust-lang.org") {
+		Err(_) => Err("could not fetch www.rust-lang.org".to_string()),
+		Ok(ref mut response) => {
+			match response.text() {
+				Err(_) => Err("could not decode text".to_string()),
+				Ok(text) => Ok(text)
+			}
+		}
+	}
+}
+
+pub fn main() {
+	println!("{:#?}", &fetch_google());
+}
+					{% endblock %}
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>foo</li>
+						</ul>
+					</aside>
+				</section>
+
+
+				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+extern crate reqwest;
+
+pub fn fetch_google() -> Result<String, String> {
+	match reqwest::get("https://www.rust-lang.org") {
+		Err(_) => Err("could not fetch www.rust-lang.org".to_string()),
+		Ok(ref mut response) => {
+			match response.text() {
+				Err(_) => Err("could not decode text".to_string()),
+				Ok(text) => Ok(text)
+			}
+		}
+	}
+}
+
+pub fn main() {
+	println!("{:#?}", &fetch_google());
+}
+					{% endblock %}
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>foo</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+extern crate reqwest;
+
+pub fn fetch_google() -> Result<String, reqwest::Error> {
+	reqwest::get("https://www.rust-lang.org")?.text()
+}
+
+pub fn main() {
+	println!("{:#?}", &fetch_google());
+}
+					{% endblock %}
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>foo</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+pub fn foo1() -> Result<String, ()> {
+	Err(())
+}
+
+pub fn foo2() -> Result<String, ()> {
+	Ok(foo1()?.trim().to_string())
+}
+
+pub fn main() {
+	println!("{:#?}", foo2());
+}
+                    {% endblock %}
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>foo</li>
+						</ul>
+					</aside>
+				</section>
+
+
+				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+fn main() {
+	let numbers = vec![1, 2, 3, 4, 5, 6, 10, 100];
+
+	let result: Vec<_> = numbers.iter()
+	.filter(|&x| *x < 4)
+	.filter(|&x| *x > 100)
+	.map(|x| x * 2)
+	.chain(10..11)
+	.collect();
+
+	println!("{:#?}", result);
+}
+					{% endblock %}
+					{% endembed %}
+
+					<aside class="notes">
+						<ul>
+							<li>foo</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Generics</h3>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+enum May<T> {
+	Value(T),
+	Empty
+}
+
+impl<T> May<T> {
+	pub fn unwrap(&self) -> &T {
+		match self {
+			&May::Value(ref v) => v,
+			&May::Empty => panic!("yolo")
+		}
+	}
+}
+
+fn main() {
+	println!("{}", May::Value::<i32>(10).unwrap());
+	println!("{}", (May::Empty::<i32>).unwrap());
+}
+					{% endblock %}
+					{% endembed %}
 				</section>
 
 				<section>

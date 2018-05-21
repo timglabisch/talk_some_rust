@@ -1,6 +1,6 @@
 <div
         class="editor"
         data-code-rust="{{ ("\n" ~ block('rust')) | trim(' ', 'right') | trim("\n", 'right') | e('html_attr') }}"
-        {% if block('php') is defined %} data-code-php="{{ ("\n" ~ block('php')) | trim(' ', 'right') | trim("\n", 'right') | e('html_attr') }}" {% endif %}
+        {% if block('php') is defined %} data-code-php="{{ ("\n" ~ block('php'))  | trim(' ', 'right') | trim("\n", 'right') | e('html_attr') }}" {% endif %}
 >
 </div>
