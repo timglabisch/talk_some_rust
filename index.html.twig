@@ -1110,6 +1110,26 @@ fn main() {
 				</section>
 
 				<section>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+fn do_greet(p : fn() -> String) {
+	println!("hello {}", &p());
+}
+
+pub fn main() {
+	do_greet(||{ "rheinjug".to_string() });
+}
+					{% endblock %}
+					{% endembed %}
+
+					<aside class="notes">
+						<ul>
+							<li>todo, wie nennt sich der syntax?</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
 					<h3>Generics</h3>
                     {% embed "twig/editor.html.twig" %}
                     {% block rust %}
@@ -1135,6 +1155,89 @@ fn main() {
 					{% endembed %}
 				</section>
 
+				<section>
+					<h3>Traits</h3>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+trait Greetable {
+	fn greet(&self);
+}
+
+struct Person;
+
+impl Greetable for Person {
+	fn greet(&self) {
+		println!("hello :)");
+	}
+}
+
+fn main() {
+	Person{}.greet();
+}
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+
+				<section>
+					<h3>Traits</h3>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+
+fn do_greet<T>(p : T) where T : Fn() -> String {
+	println!("hello {}", &p());
+}
+
+pub fn main() {
+	do_greet(||{ "rheinjug".to_string() });
+}
+
+                    {% endblock %}
+					{% endembed %}
+				</section>
+				<section>
+					<h3>Traits</h3>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+trait Greetable {
+	fn greet(&self);
+}
+
+impl<T> Greetable for T where T: Fn() -> String {
+	fn greet(&self) {
+		println!("Hello {}", self());
+	}
+}
+
+pub fn main() {
+	(||{ "rheinjug".to_string() }).greet();
+}
+					{% endblock %}
+					{% endembed %}
+				</section>
+				<section>
+					<h3>Traits</h3>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+trait Greetable {
+	fn greet(&self);
+}
+
+impl<T, X> Greetable for T
+	where T: Fn() -> X,
+	X : Fn() -> String
+{
+	fn greet(&self) {
+		println!("Hello {}", self()());
+	}
+}
+
+pub fn main() {
+	(||{(||{ "rheinjug".to_string() })}).greet();
+}
+					{% endblock %}
+					{% endembed %}
+				</section>
 				<section>
 					<img src="img/me.jpeg" style="max-width:200px"><br/>
 					<i>@timglabisch</i>
