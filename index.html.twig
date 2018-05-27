@@ -30,6 +30,12 @@
 			section img {
 				border: 1px solid #ccc !important;
 			}
+
+			.editor img {
+				max-width: 50%;
+				border: 0 !important;
+				box-shadow: none !important;
+			}
 		</style>
 		<!-- Printing and PDF exports -->
 		<script>
@@ -56,21 +62,25 @@
                     var rust_code = $(v).data('code-rust');
 
 
-                    var php_code = $(v).data('code-php');
-
 
                     $(v).html('');
 
                     $(v).append($('<iframe style="flex: 1 1 auto;overflow:scroll"/>').attr('src', rust_pen + '/?pageMode=presentation&code=' + encodeURIComponent(rust_code)));
 
 
-                    if (!php_code || !php_code.trim()) {
-                        return;
+					let php_code = $(v).data('code-php');
+                    if (php_code && php_code.trim()) {
+                        let php_code_node = $('<div class="right-code"><pre><code data-trim data-noescape class="code"></code></pre></div>');
+						php_code_node.find('.code').text(php_code);
+						$(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(php_code_node));
+						return;
                     }
 
-                    var php_code_node = $('<div class="right-code"><pre><code data-trim data-noescape class="code"></code></pre></div>');
-                    php_code_node.find('.code').text(php_code);
-                    $(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(php_code_node));
+                    let html_code = $(v).data('code-html');
+                    if (html_code && html_code.trim()) {
+						$(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(html_code));
+						return;
+                    }
 
                 });
 
@@ -1238,17 +1248,285 @@ pub fn main() {
 					{% endblock %}
 					{% endembed %}
 				</section>
+
+
 				<section>
-					<img src="img/me.jpeg" style="max-width:200px"><br/>
-					<i>@timglabisch</i>
-					<br/>
-					<img src="img/github_stats.png" style="max-width:370px"/>
+					<h2>static vs dynamic dispatch</h2>
 					<aside class="notes">
 						<ul>
-							<li>Ich bin Tim</li>
+							<li>wer kennt den untschied?</li>
+							<li>welches ist schneller?</li>
 						</ul>
 					</aside>
 				</section>
+
+				<section>
+					<h3>Traits</h3>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+struct Person {
+	age: i32
+}
+
+fn main() {
+}
+                    {% endblock %}
+					{% block html %}
+						<img src="img/static_dispatch1.png">
+					{% endblock %}
+					{% endembed %}
+				</section>
+
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+struct Person;
+
+impl Person {
+	fn greet(&self) {
+		println!("hello :)");
+	}
+}
+
+fn main() {
+	Person{}.greet();
+}
+                    {% endblock %}
+					{% block html %}
+						<img src="img/static_dispatch2.png">
+					{% endblock %}
+					{% endembed %}
+				</section>
+
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+struct Person;
+
+impl Person {
+	fn greet(&self) {
+		println!("hello :)");
+	}
+}
+
+fn greet(p : &Person) {
+	println!("hello :)");
+}
+
+fn main() { }
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+struct Person;
+
+trait Greetable {
+	fn greet();
+}
+
+impl<T> Person
+	where T: Greetable
+{
+	fn greet(&self) {
+		println!("hello :)");
+	}
+}
+
+fn main() { }
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+struct Person;
+
+trait Greetable {
+    fn greet(&self);
+}
+
+impl Greetable for Person {
+    fn greet(&self) {
+        println!("hello :)");
+    }
+}
+
+fn hello<T>(v : &T) where T : Greetable {
+    v.greet();
+}
+
+fn main() {
+    hello(&Person{});
+}
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+    println!("hello :)");
+}
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+struct Person;
+
+trait Greetable {
+    fn greet(&self);
+}
+
+impl Greetable for Person {
+    fn greet(&self) {
+        println!("hello :)");
+    }
+}
+
+fn hello(v : &Greetable) {
+    v.greet();
+}
+
+fn main() {
+    hello(&Person{});
+}
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+				<section>
+					<h2>lifetime</h2>
+				</section>
+
+
+				<section>
+					<img src="img/lifetime1.png"/>
+				</section>
+				<section>
+					<img src="img/lifetime2.png"/>
+				</section>
+				<section>
+					<img src="img/lifetime3.png"/>
+				</section>
+				<section>
+					<img src="img/lifetime4.png"/>
+				</section>
+				<section>
+					<img src="img/lifetime5.png"/>
+				</section>
+				<section>
+					<img src="img/lifetime6.png"/>
+				</section>
+				<section>
+					<img src="img/lifetime7.png"/>
+				</section>
+				<section>
+					<img src="img/lifetime8.png"/>
+				</section>
+
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+    let foo = "foo ".to_string();
+    let foo_t = foo.trim();
+
+    println!("'{}'", &foo_t);
+}
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+    let foo = "foo ".to_string();
+    let foo_t = foo.trim();
+
+    println!("'{}'", &foo_t);
+}
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+    let mut foo = "foo ".to_string();
+    let foo_t = foo.trim();
+
+    foo = "bar".to_string();
+
+    println!("'{}'", &foo_t);
+}
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+    let mut foo = "foo ";
+    let foo_t = foo;
+
+    foo = "bar";
+
+    println!("'{}'", &foo_t);
+}
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+				<section>
+                    <img src="img/code_heap_stack.png" style="max-width:60%"/>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+    let foo = "foo ";
+}
+                    {% endblock %}
+
+					{% block html %}
+					<img src="img/code_heap_stack.png"/>
+					{% endblock %}
+
+					{% endembed %}
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+    let foo = "foo "
+		.to_string();
+}
+                    {% endblock %}
+
+					{% block html %}
+					<img src="img/code_heap_stack.png"/>
+					{% endblock %}
+
+					{% endembed %}
+				</section>
+
 			</div>
 		</div>
 
