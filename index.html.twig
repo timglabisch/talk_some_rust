@@ -56,17 +56,18 @@
                         'justify-content': 'flex-start'
                     });
 
-                    var rust_pen = "http://127.0.0.1:5000";
+                    let rust_pen = "http://127.0.0.1:5000";
                     //var rust_pen = "https://play.rust-lang.org/";
 
-                    var rust_code = $(v).data('code-rust');
-
+                    let rust_code = $(v).data('code-rust');
 
 
                     $(v).html('');
 
-                    $(v).append($('<iframe style="flex: 1 1 auto;overflow:scroll"/>').attr('src', rust_pen + '/?pageMode=presentation&code=' + encodeURIComponent(rust_code)));
 
+                    if (rust_code) {
+                        $(v).append($('<iframe style="flex: 1 1 auto;overflow:scroll"/>').attr('src', rust_pen + '/?pageMode=presentation&code=' + encodeURIComponent(rust_code)));
+                    }
 
 					let php_code = $(v).data('code-php');
                     if (php_code && php_code.trim()) {
@@ -107,15 +108,17 @@
 				<section>
                     {% embed "twig/editor.html.twig" %}
                         {% block rust %}
-pub fn main() {
-	println!();
+// if you can't read this,
+// take another seat.
+fn main() {
+	println!("hello rheinjug");
 }
                         {% endblock %}
 
                         {% block php %}
 <?php
 
-echo "foo";
+echo "hello rheinjug";
                         {% endblock %}
                     {% endembed %}
 
@@ -173,7 +176,7 @@ fn main() {
 // kotlin
 
 fun main(args: Array<String>) {
-	System.out.println("hello Rheinjug!");
+	println("hello Rheinjug!");
 }
 
 // php
@@ -187,7 +190,11 @@ echo "Hello Rheinjug!";
                         {% block rust %}
 fn main() {
 	let a: &[u8] = b"hello, Rheinjug!";
-	println!("{}", ::std::str::from_utf8(a).expect("i am sure it's valid utf8"));
+	println!(
+		"{}",
+		::std::str::from_utf8(a)
+			.expect("i am sure it's valid utf8")
+	);
 }
                         {% endblock %}
 
@@ -196,8 +203,14 @@ fn main() {
 import java.nio.charset.Charset
 
 fun main(args: Array<String>) {
-	val a = "Hello Rheinjug".toByteArray(Charset.defaultCharset());
-	System.out.println(String.format("%s", a.toString(Charset.defaultCharset())));
+	val a = "Hello Rheinjug"
+		.toByteArray(Charset.defaultCharset());
+	println(
+		String.format(
+			"%s",
+			a.toString(Charset.defaultCharset())
+		)
+	);
 }
 
 // php
@@ -237,7 +250,7 @@ pub fn main() {
 					{% block php %}
 // kotlin
 private fun greet(name : String) {
-	System.out.println("Hello " + name);
+	println("Hello " + name);
 }
 
 fun main(args: Array<String>) {
@@ -287,7 +300,9 @@ class Person(val age : Int);
 
 fun main(args: Array<String>) {
 	val tim = Person(25);
-	System.out.println("tim is " + tim.age + " years old")
+	println(
+		"tim is " + tim.age + " years old"
+	)
 }
 
 					{% endblock %}
@@ -344,7 +359,9 @@ class Person(private val age : Int) {
 
 fun main(args: Array<String>) {
 	val tim = Person(25);
-	System.out.println("tim is " + tim.getAge() + " years old")
+	println(
+		"tim is " + tim.getAge() + " years old"
+	)
 }
 
 
@@ -526,11 +543,12 @@ fun main(args: Array<String>) {
 
 
 
-				<section>
-					<img src="img/cartoon_c.png" />
+				<section data-background-video="img/gKLWZjBu2iQ.webm">
+					<img  style="opacity: 0.5" src="img/cartoon_c.png" />
 					<br/>
 					<small>
 						<a href="http://leftoversalad.com/c/015_programmingpeople/">leftoversalad.com/c/015_programmingpeople</a>
+						<a href="https://www.youtube.com/watch?v=gKLWZjBu2iQ">youtube.com/gKLWZjBu2iQ</a>
 					</small>
 					<aside class="notes">
 						<ul>
@@ -542,7 +560,7 @@ fun main(args: Array<String>) {
 
 
 				<section>
-					<img src="img/cartoon_rust.png" style="max-height: 100%"/>
+					<img src="img/cartoon_rust.png" style="max-width: 30%"/>
 					<br/>
 					<small>
 						<a href="http://leftoversalad.com/c/015_programmingpeople/">leftoversalad.com/c/015_programmingpeople</a>
@@ -555,6 +573,13 @@ fun main(args: Array<String>) {
 							<li>die 31 Jahre zeigen wie schwer es ist.</li>
 							<li>mozilla hat rund 6 jahre forschung in die reinen sprachkonzepte gesteckt.</li>
 						</ul>
+					</aside>
+				</section>
+
+				<section data-background-video="img/rust_teacher.webp">
+
+					<aside class="notes">
+
 					</aside>
 				</section>
 
@@ -602,7 +627,7 @@ pub fn main() {
 					{% block php %}
 // kotlin
 private fun greet(name : String) {
-	System.out.println("Hello " + name);
+	println("Hello " + name);
 }
 
 fun main(args: Array<String>) {
@@ -1525,6 +1550,189 @@ fn main() {
 					{% endblock %}
 
 					{% endembed %}
+				</section>
+
+				<section>
+					<h1>functional stuff</h1>
+				</section>
+
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block php %}
+fun main(args: Array<String>) {
+
+    listOf(1, 2, 3)
+        .map({ v -> println(v); });
+
+}
+
+// 1
+// 2
+// 3
+					{% endblock %}
+
+					{% endembed %}
+				</section>
+
+				<section>
+					<img src="img/kotlin_map_function.png">
+					<img src="img/kotlin_map_function2.png">
+				</section>
+
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+fn main() {
+
+    vec![1, 2, 3]
+		.iter()
+        .map(|x|{ println!("{}", x); });
+
+}
+
+					{% endblock %}
+
+					{% endembed %}
+
+
+					<aside class="notes">
+						<pre>
+							let x : () =
+						</pre>
+					</aside>
+
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+fn map<B, F>(self, f: F) -> Map<Self, F> where
+	Self: Sized, F: FnMut(Self::Item) -> B,
+{
+	Map{iter: self, f: f}
+}
+
+					{% endblock %}
+
+					{% endembed %}
+
+				</section>
+
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+fn main() {
+
+    [1, 2, 3]
+		.iter()
+        .map(|x|{ println!("{}", x); })
+		.collect::<()>();
+
+}
+
+					{% endblock %}
+
+					{% endembed %}
+
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+fn main() {
+
+    for i in [1, 2, 3] {
+		println!("{}", i);
+	}
+
+}
+
+					{% endblock %}
+
+					{% endembed %}
+
+				</section>
+
+				<section>
+					<img src="img/map_is_identical.png"/>
+				</section>
+
+				<section>
+					<img src="img/maven_central.png"/>
+				</section>
+				<section>
+					<img src="img/packagist_stats.png"/>
+				</section>
+				<section>
+					<img src="img/crates_io.png"/>
+				</section>
+				<section>
+					<img src="img/yew.png"/>
+				</section>
+				<section>
+					<img src="img/web_view.png"/>
+				</section>
+				<section>
+					<img src="img/redox.png"/>
+				</section>
+				<section>
+					<img src="img/servo.png"/>
+				</section>
+				<section>
+					<img src="img/rocket_rs.png"/>
+				</section>
+				<section>
+					<img src="img/rust_diesel.png"/>
+				</section>
+				<section>
+					<img src="img/rust_diesel2.png"/>
+				</section>
+				<section>
+					<img src="img/rust_git.png"/>
+				</section>
+				<section>
+					<img src="img/graalvm.png"/>
+				</section>
+				<section>
+					<img src="img/bindgen.png"/>
+				</section>
+				<section>
+					<img src="img/writing_an_os.png"/>
+				</section>
+				<section>
+					<img src="img/rust_by_example.png"/>
+				</section>
+				<section>
+					<img src="img/rust_book.png"/>
+				</section>
+				<section>
+					<img src="img/libc.png"/>
+				</section>
+				<section>
+					<img src="img/futures_rs.png"/>
+				</section>
+				<section>
+					<img src="img/hello_rust_show.png"/>
+				</section>
+				<section>
+					<img src="img/rust_neon.png"/>
+				</section>
+				<section>
+					<img src="img/rust_osnabrück.png"/>
+				</section>
+				<section>
+					<img src="img/rust_emulator.png"/>
+				</section>
+				<section>
+					<img src="img/rust_team.png" style="max-width: 25%"/>
 				</section>
 
 			</div>

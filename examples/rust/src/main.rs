@@ -1,20 +1,7 @@
-struct Person {
-    age: i32
-}
+fn main() {
 
-impl Person {
-    pub fn new(age: i32) -> Self {
-        Person {
-            age
-        }
-    }
+    vec![1, 2, 3]
+		.iter()
+        .map(|x|{ println!("{}", x); });
 
-    pub fn get_age(&self) -> i32 {
-        self.age
-    }
-}
-
-pub fn main() {
-    let tim = Person::new(25);
-    println!("tim is {} years old", tim.get_age());
 }
