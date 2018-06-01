@@ -1,7 +1,7 @@
 <div
         class="editor"
         {% if block('rust') is defined %} data-code-rust="{{ ("\n" ~ block('rust')) | trim(' ', 'right') | trim("\n", 'right') | e('html_attr') }}" {% endif %}
-        {% if block('php') is defined %} data-code-php="{{ ("\n" ~ block('php'))  | trim(' ', 'right') | trim("\n", 'right') | e('html_attr') }}" {% endif %}
+        {% if block('php') is defined %} style="font-size:50px" data-code-php="{{ ("\n" ~ block('php'))  | trim(' ', 'right') | trim("\n", 'right') | e('html_attr') }}" {% endif %}
         {% if block('html') is defined %} data-code-html="{{ ("\n" ~ block('html'))  | trim(' ', 'right') | trim("\n", 'right') | e('html_attr') }}" {% endif %}
 >
 </div>

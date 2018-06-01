@@ -116,12 +116,28 @@ fn main() {
                         {% endblock %}
 
                         {% block php %}
-<?php
+// kotlin
+fun main(args: Array<String>) {
+	println("hello rheinjug");
+}
 
+// php
 echo "hello rheinjug";
                         {% endblock %}
                     {% endembed %}
-
+						<aside class="notes">
+							<ul>
+								<li>nimmt man 3 sprachen, so hat man 3 unterschiedliche implementierungen was strings angeht.</li>
+								<li>in rust gibt es 4 string typen, klassische sind strings immer utf8 und mutable</li>
+								<li>strings in kotlin sind nicht mutable und nutzen wie java utf-16,  das default defaultCharset ist allerdings utf8. es gibt im issue tracker eine diskussion auf utf-8 zu wechseln.</li>
+								<li>strings in php sind byte sequenzen. php6 ist dran gecheitert.</li>
+								<li>
+									wenn ihr bei php genau guckt, mal hab ich das echo mit klammern geschrieben, mal ohne.
+									das ist eine besonderhet in php, echo ist ein eigener opcode.
+									schaut man auf die rust implementierung siehst man das ausrufezeichen. Dabei handelt es sich nicht um ein sprachkonstrukt, sondern um ein macro.
+								</li>
+							</ul>
+						</aside>
 				</section>
 
 					<section>
@@ -164,27 +180,7 @@ echo "hello rheinjug";
 						</aside>
 					</section>
 
-					<section>
-                        {% embed "twig/editor.html.twig" %}
-                        {% block rust %}
-fn main() {
-	println!("hello, Rheinjug!");
-}
-                        {% endblock %}
-
-                        {% block php %}
-// kotlin
-
-fun main(args: Array<String>) {
-	println("hello Rheinjug!");
-}
-
-// php
-echo "Hello Rheinjug!";
-						{% endblock %}
-					{% endembed %}
-
-					</section>
+				{#
 					<section>
                         {% embed "twig/editor.html.twig" %}
                         {% block rust %}
@@ -219,21 +215,9 @@ echo(sprintf("%s", "Hello Rheinjug!"));
                         {% endblock %}
                     {% endembed %}
 
-						<aside class="notes">
-							<ul>
-								<li>nimmt man 3 sprachen, so hat man 3 unterschiedliche implementierungen was strings angeht.</li>
-								<li>in rust gibt es 4 string typen, klassische sind strings immer utf8 und mutable</li>
-								<li>strings in kotlin sind nicht mutable und nutzen wie java utf-16,  das default defaultCharset ist allerdings utf8. es gibt im issue tracker eine diskussion auf utf-8 zu wechseln.</li>
-								<li>strings in php sind byte sequenzen. php6 ist dran gecheitert.</li>
-								<li>
-									wenn ihr bei php genau guckt, mal hab ich das echo mit klammern geschrieben, mal ohne.
-									das ist eine besonderhet in php, echo ist ein eigener opcode.
-									schaut man auf die rust implementierung siehst man das ausrufezeichen. Dabei handelt es sich nicht um ein sprachkonstrukt, sondern um ein macro.
-								</li>
-							</ul>
-						</aside>
-				</section>
 
+				</section>
+#}
 				<section>
 					{% embed "twig/editor.html.twig" %}
 					{% block rust %}
@@ -290,8 +274,11 @@ struct Person {
 }
 
 pub fn main() {
-	let tim = Person { age: 25 };
-	println!("tim is {} years old", tim.age);
+	let tim = Person { age: 27 };
+	println!(
+		"tim is {} years old",
+		tim.age
+	);
 }
 					{% endblock %}
 
@@ -601,7 +588,7 @@ fun main(args: Array<String>) {
 				</section>
 
 				<section>
-					<h3>das tolle an Rust, sind dessen einschränkungen.</h3>
+					<h3>das tolle an Rust, sind dessen Einschränkungen.</h3>
 					<aside class="notes">
 						<ul>
 
@@ -885,6 +872,27 @@ fn main() {
                     {% block rust %}
 fn main() {
 
+	let sum = {
+		let a = 1;
+		let b = 2;
+
+		a + b
+	};
+
+	println!("{}", sum);
+}
+                    {% endblock %}
+                    {% endembed %}
+					<aside class="notes">
+
+					</aside>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+
 	let names = vec![
 		"Tim",
 		"Chris",
@@ -928,64 +936,6 @@ fn main() {
 
 						println!("{}", names.join(", "));
 						}
-					</aside>
-				</section>
-
-				<section>
-
-
-					{% embed "twig/editor.html.twig" %}
-					{% block rust %}
-#[derive(Debug)]
-struct BlogPost;
-
-fn get_blog_post_by_uuid(uuid : &str) -> Option<BlogPost> {
-	if uuid == "1234-abcdef" {
-		return Some(BlogPost {});
-	}
-
-	None
-}
-
-fn main() {
-	println!("{:?}", get_blog_post_by_uuid("1234-abcdef"));
-}
-					{% endblock %}
-					{% endembed %}
-					<aside class="notes">
-						<ul>
-							<li>Rust kennt kein "Null"</li>
-							<li>Rust kennt nur "options"</li>
-							<li>kann das sein, oder nichts</li>
-							<li>Prüft man nicht, sondern ruft einfach "unwrap" auf einer option auf, so panict im zweifel das programm und ist beendet</li>
-							<li>das programm ist somit nie in einem "komischen" zustand</li>
-							<li>benutzt man unwrap nicht, kann das programm in keinen dieser zustände kommen</li>
-							<li>wer würde schon ein herzschrittmacher in php entwickeln?</li>
-						</ul>
-					</aside>
-				</section>
-				<section>
-
-
-					{% embed "twig/editor.html.twig" %}
-					{% block rust %}
-fn get_blog_post_by_uuid(uuid : &str) -> Option<BlogPost> {
-	if uuid == "1234-abcdef" {
-		return Some(BlogPost {});
-	}
-
-	None
-}
-
-fn main() {
-	println!("{:?}", get_blog_post_by_uuid("1234-abcdef").trim());
-}
-					{% endblock %}
-					{% endembed %}
-					<aside class="notes">
-						<ul>
-							<li>foo</li>
-						</ul>
 					</aside>
 				</section>
 
@@ -1118,6 +1068,63 @@ pub fn main() {
 					</aside>
 				</section>
 
+
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+use std::num::ParseIntError;
+
+fn multiply(first_number_str: &str, second_number_str: &str) -> Result<i32, ParseIntError> {
+    let first_number = first_number_str.parse::<i32>()?;
+    let second_number = second_number_str.parse::<i32>()?;
+
+    Ok(first_number * second_number)
+}
+
+fn print(result: Result<i32, ParseIntError>) {
+    match result {
+        Ok(n)  => println!("n is {}", n),
+        Err(e) => println!("Error: {}", e),
+    }
+}
+
+fn main() {
+    print(multiply("10", "2"));
+    print(multiply("t", "2"));
+}
+
+					{% endblock %}
+
+					{% endembed %}
+				</section>
+
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+
+fn double_arg(argv: Vec<&str>) -> Result<i32, String> {
+    argv
+        .iter()
+        .nth(0)
+        .ok_or("Please give at least two arguments".to_owned())
+        .and_then(|arg| arg.parse::<i32>().map_err(|err| err.to_string()))
+        .map(|n| 2 * n)
+}
+
+fn main() {
+    match double_arg(vec!["2"]) {
+        Ok(n) => println!("{}", n),
+        Err(err) => println!("Error: {}", err),
+    }
+}
+					{% endblock %}
+
+					{% endembed %}
+				</section>
 
 				<section>
 					{% embed "twig/editor.html.twig" %}
@@ -1664,6 +1671,94 @@ fn main() {
 				<section>
 					<img src="img/map_is_identical.png"/>
 				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+#[derive(Debug)]
+struct Product {}
+
+fn get_product(id : u32) -> Option<Product> {
+
+    if id == 1 {
+        return None;
+    }
+
+    if id == 2 {
+        return None;
+    }
+
+    Some(Product {})
+}
+
+fn main() {
+    println!("{:#?}", get_product(3));
+}
+
+					{% endblock %}
+
+					{% block php %}
+class Product {};
+function get_product(int $id): ?Product {
+
+	if ($id === 1) {
+		return null;
+	}
+
+	if ($id === 2) {
+		return null;
+	}
+
+	return new Product();
+
+}
+					{% endblock %}
+
+					{% endembed %}
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+#[derive(Debug)]
+struct Product {}
+
+fn get_product(id : u32) -> Result<Option<Product>, ()> {
+
+    if id == 1 {
+        return Ok(None);
+    }
+
+    if id == 2 {
+        return Err(());
+    }
+
+    Ok(Some(Product {}))
+}
+
+fn main() {
+    println!("{:#?}", get_product(3));
+}
+
+					{% endblock %}
+
+					{% endembed %}
+				</section>
+
+				<section>
+					<img src="img/kotlin_operator1.png" />
+					<img src="img/kotlin_operator2.png" />
+					<aside class="notes">
+							<ul>
+								<li>? = elvis opetator</li>
+								<li>!! = </li>
+							</ul>
+					</aside>
+				</section>
+
+
 
 				<section>
 					<img src="img/maven_central.png"/>
