@@ -36,6 +36,10 @@
 				border: 0 !important;
 				box-shadow: none !important;
 			}
+
+			.reveal pre code {
+				max-height: inherit !important;
+			}
 		</style>
 		<!-- Printing and PDF exports -->
 		<script>
@@ -158,24 +162,29 @@ echo "hello rheinjug";
 									</ul>
 								</li>
 								<li>
-									Ich arbeite hier für Sensiolabs als Architekt, habe demnach einen starken PHP und Symfony Background
+									Ich arbeite für Easybill, platform zum rechnungen schreiben und mache primär PHP.
 								</li>
-
 								<li>
-									Der Titel des Talks war ja Rust für PHP Devs
+									Früher war ich viel als PHP Consult unterwegs.
+								</li>
+								<li>
+									Hatte ja schon angekündigt, dass der Talk sehr codelastig wird.
 									<ul>
-										<li>In diesem Sinne hab ich heute viel Code mitgebracht</li>
 										<li>Ich hab aber auch viele Slides mitgebracht</li>
 										<li>Sollte ich euch deutlich zu schnell werden, einfach aufschreien oder mit irgendwas nach mir werfen.</li>
-										<li>
-											Die Slides stelle ich online
-											<ul>
-												<li>Wenn man den Talk gewissenhaft nacharbeitet, kann man einige Stunden damit verbringen</li>
-												<li>... und das ist gewollt so...</li>
-											</ul>
-										</li>
 									</ul>
 								</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section>
+						<h2>Basics</h2>
+						<aside class="notes">
+							<ul>
+								<li>schauen wir uns basics an?</li>
+								<li>was ist erstmal das wichtigste?</li>
+								<li>schauen wir uns klassen an :)</li>
 							</ul>
 						</aside>
 					</section>
@@ -364,7 +373,13 @@ fun main(args: Array<String>) {
                                         <li>Kotlin code ist weniger</li>
                                         <li>Rust kennt keinen Konstruktur, ist einfach eine statische methode, welche eine Instanz zurückgibt.</li>
 										<li>Rust hat keine echten klassen, sieht mehr aus wie golang (impl für ein strukt)</li>
-										<li>Rust trennt zustand (properties) von Funktionen.</li>
+										<li>
+											Rust trennt zustand (properties) von Funktionen.
+											<ul>
+												<li>mehrere impl blöcke pro strukt</li>
+												<li>impl blöcke für andere structs</li>
+											</ul>
+										</li>
 										<li>
 											Rust nimmt speichermanagement extrem genau, sehen wir später noch.
 											<ul>
@@ -407,7 +422,7 @@ fun main(args: Array<String>) {
 							-->
 
 							<li>agile herangehensweisen machen es einfach mal was neues in ein projekt zu werfen, hype driven development ist gang und gebe</li>
-							<li>die meisten entwickler haben mehr ajvascript frameworks selbst gebau, als das sie algorithmen implementieren können - so ist das eben heute, und ich finds auch nicht schlimm.</li>
+							<li>die meisten entwickler haben mehr javascript frameworks selbst gebau, als das sie algorithmen implementieren können - so ist das eben heute, und ich finds auch nicht schlimm.</li>
 							<li>in den letzten paar jahren ist die menge an technologien pro projekt extrem gestiegen, frameworks werden komplexer u.s.w.</li>
 							<li>... und nun stelle ich euch mal wieder eine neue technologie vor, welche neue Hoffnung bringen soll. wie jede andere technologie mit der man sich rumschlägt.</li>
 
@@ -460,14 +475,6 @@ fun main(args: Array<String>) {
 					</aside>
 				</section>
 
-
-				<section>
-					<img src="img/swift_system_programming.png">
-					<br/>
-					<small>
-						<a href="https://www.quora.com/Is-Swift-a-great-systems-programming-language">quora.com/Is-Swift-a-great-systems-programming-language</a>
-					</small>
-				</section>
 
 				<section>
 					<img src="img/system_prgramming_languages_reduced.png">
@@ -563,24 +570,8 @@ fun main(args: Array<String>) {
 					</aside>
 				</section>
 
-				<section data-background-video="img/rust_teacher.webp">
-
-					<aside class="notes">
-
-					</aside>
-				</section>
-
-
 				<section>
-					<img src="img/rust_spoils_me.png"/>
-					<br/>
-					<small>
-						<a href="https://twitter.com/gilescope/status/992309474881822720">twitter.com</a>
-					</small>
-				</section>
-
-				<section>
-					<img src="img/rust_spoils_me2.png"/>
+					<img src="img/rust_spoils_me2.png" style="max-width: 70%"/>
 					<br/>
 					<small>
 						<a href="https://twitter.com/gilescope/status/992309474881822720">twitter.com</a>
@@ -894,9 +885,8 @@ fn main() {
 fn main() {
 
 	let names = vec![
-		"Tim",
-		"Chris",
-		"Freerich"
+		"Foo",
+		"Bar",
 	];
 
 	println!("{}", names.join(", "));
@@ -916,9 +906,8 @@ fn main() {
 fn main() {
 
 	let mut names = vec![];
-	names.push("Tim");
-	names.push("Chris");
-	names.push("Freerich");
+	names.push("Foo");
+	names.push("Bar");
 
 	println!("{}", names.join(", "));
 }
@@ -1199,6 +1188,9 @@ fn main() {
 
 				<section>
 					<h3>Traits</h3>
+				</section>
+
+				<section>
                     {% embed "twig/editor.html.twig" %}
                     {% block rust %}
 trait Greetable {
@@ -1217,12 +1209,29 @@ fn main() {
 	Person{}.greet();
 }
                     {% endblock %}
+					{% block php %}
+// kotlin
+interface Greetable {
+    fun greet();
+}
+
+class Person : Greetable {
+    override fun greet() {
+        println("hello :)");
+    }
+}
+
+fun main(args: Array<String>) {
+    val person : Greetable = Person();
+    person.greet();
+}
+
+					{% endblock %}
 					{% endembed %}
 				</section>
 
 
 				<section>
-					<h3>Traits</h3>
                     {% embed "twig/editor.html.twig" %}
                     {% block rust %}
 
@@ -1238,7 +1247,6 @@ pub fn main() {
 					{% endembed %}
 				</section>
 				<section>
-					<h3>Traits</h3>
 					{% embed "twig/editor.html.twig" %}
 					{% block rust %}
 trait Greetable {
@@ -1258,7 +1266,6 @@ pub fn main() {
 					{% endembed %}
 				</section>
 				<section>
-					<h3>Traits</h3>
 					{% embed "twig/editor.html.twig" %}
 					{% block rust %}
 trait Greetable {
@@ -1293,7 +1300,6 @@ pub fn main() {
 				</section>
 
 				<section>
-					<h3>Traits</h3>
                     {% embed "twig/editor.html.twig" %}
                     {% block rust %}
 struct Person {
