@@ -131,28 +131,36 @@ echo "hello rheinjug";
                     {% endembed %}
 						<aside class="notes">
 							<ul>
-								<li>nimmt man 3 sprachen, so hat man 3 unterschiedliche implementierungen was strings angeht.</li>
-								<li>in rust gibt es 4 string typen, klassische sind strings immer utf8 und mutable</li>
-								<li>strings in kotlin sind nicht mutable und nutzen wie java utf-16,  das default defaultCharset ist allerdings utf8. es gibt im issue tracker eine diskussion auf utf-8 zu wechseln.</li>
-								<li>strings in php sind byte sequenzen. php6 ist dran gecheitert.</li>
+								<li>Hi!</li>
+								<li>ich hab euch auf der ersten slide schon code mitgebracht.</li>
+								<li>es ist wichtig, dass ihr das halbwegs gut lesen könnt, sonst wird der vortrag sehr langweilig.</li>
+								<li>nun zum code. - was haben wir hier? ja eine begrüßung</li>
+								<li>oft hab ich code in mehreren sprachen mitgebracht, ich finds am einfachsten wenn man diesen vergleicht.</li>
+								<li>der rust code ist immer executable, d.h. wir können zusammen auch im code basteln und ausprobieren.</li>
+								<li>generell hab ich aber recht viele slides :) - könnt aber jederzeit rein quatschen.</li>
 								<li>
-									wenn ihr bei php genau guckt, mal hab ich das echo mit klammern geschrieben, mal ohne.
-									das ist eine besonderhet in php, echo ist ein eigener opcode.
-									schaut man auf die rust implementierung siehst man das ausrufezeichen. Dabei handelt es sich nicht um ein sprachkonstrukt, sondern um ein macro.
+									nun zum code. sieht erstmal ähnlich aus, unterschiede?
+									<ul>
+										<li>argumente der main function</li>
+										<li>rust hat ! :) macro</li>
+										<li>UTF8 vs. UTF 16 vs bytecode</li>
+									</ul>
 								</li>
 							</ul>
 						</aside>
 				</section>
 
 					<section>
-						<img src="img/me.jpeg" style="max-width:200px"><br/>
+						<img src="img/me.jpeg" style="max-width:230px">
+
+						<br/>
 						<i>@timglabisch</i>
+
 						<br/>
 						<img src="img/github_stats.png" style="max-width:370px"/>
 						<aside class="notes">
 							<ul>
 								<li>Ich bin Tim</li>
-								<li>Wer schonmal hier aus der UG war und nicht über mich hinweg gesehen hat, hat mich bestimmt schonmal gesehen</li>
 								<li>
 									... Und Github denkt ich würde in diesen Sprachen entwickeln
 									<ul>
@@ -184,7 +192,7 @@ echo "hello rheinjug";
 							<ul>
 								<li>schauen wir uns basics an?</li>
 								<li>was ist erstmal das wichtigste?</li>
-								<li>schauen wir uns klassen an :)</li>
+								<li>schauen wir uns methodenaufrufe an :)</li>
 							</ul>
 						</aside>
 					</section>
@@ -231,11 +239,15 @@ echo(sprintf("%s", "Hello Rheinjug!"));
 					{% embed "twig/editor.html.twig" %}
 					{% block rust %}
 pub fn greet(name : String) {
-	println!("Hello {}", name);
+	println!(
+		"Hello {}",
+		name
+	);
 }
 
 pub fn main() {
-	let name = "Rheinjug".to_string();
+	let name = "Rheinjug"
+		.to_string();
 	greet(name);
 }
 					{% endblock %}
@@ -268,9 +280,31 @@ greet($name);
 
 						<aside class="notes">
 							<ul>
-								<li>Hier sehen wir eine Funktion welche aufgerufen wird (greet)</li>
-								<li>Typisierung der Funktion (String) ist steht auf der rechten seite Kotlin und Rust machen dies identisch. Java und PHP nicht.</li>
-								<li>ich werde für den Moment noch nicht auf das .to_string() eingehen, vielleicht schaffen wir das gleich noch</li>
+								<li>fokus auf dne kotlin code.</li>
+								<li>main methode -> string wird delariert. funktion wird aufgerufen.</li>
+								<li>
+									wer von euch macht kotlin?
+									<ul>
+										<li>ich normal nicht, dacht mir aber, wir sind ja auf der rheinjug =)</li>
+									</ul>
+								</li>
+								<li>
+									<ul>
+										<li>Hier sehen wir eine Funktion welche aufgerufen wird (greet)</li>
+										<li>Typisierung der Funktion (String) ist steht auf der rechten seite Kotlin und Rust machen dies identisch. Java und PHP nicht.</li>
+									</ul>
+								</li>
+
+								<li>
+									ich werde für den Moment noch nicht auf das .to_string() eingehen, vielleicht schaffen wir das gleich noch
+									<ul>
+										<li>oder hat jemand ne idee?</li>
+									</ul>
+								</li>
+
+								<li>
+									nächstes beispiel. was ist das wichtigste? Klassen!
+								</li>
 							</ul>
 						</aside>
 				</section>
@@ -295,9 +329,11 @@ pub fn main() {
 class Person(val age : Int);
 
 fun main(args: Array<String>) {
-	val tim = Person(25);
+	val tim = Person(27);
 	println(
-		"tim is " + tim.age + " years old"
+		"tim is "
+		+ tim.age
+		+ " years old"
 	)
 }
 
@@ -341,7 +377,7 @@ impl Person {
 }
 
 pub fn main() {
-	let tim = Person::new(25);
+	let tim = Person::new(27);
 	println!("tim is {} years old", tim.get_age());
 }
 					{% endblock %}
@@ -354,9 +390,11 @@ class Person(private val age : Int) {
 }
 
 fun main(args: Array<String>) {
-	val tim = Person(25);
+	val tim = Person(27);
 	println(
-		"tim is " + tim.getAge() + " years old"
+		"tim is "
+		+ tim.getAge()
+		+ " years old"
 	)
 }
 
@@ -368,6 +406,13 @@ fun main(args: Array<String>) {
 							<ul>
 								<li>hier das gleiche beipiel mit einem getter.</li>
 								<li>
+									[kotlin code erklären]
+									<ul>
+										<li>[private]</li>
+									</ul>
+								</li>
+								<li>
+									[zum rust code]
                                     hier sieht man deutliche unterschiede
                                     <ul>
                                         <li>Kotlin code ist weniger</li>
@@ -437,8 +482,9 @@ fun main(args: Array<String>) {
 					<aside class="notes">
 						<aside class="notes">
 							<ul>
-								<li>Da schon wieder der Begriff system programming</li>
-								<li>ist das kotlin auch? wohl eher web programming, mhhmm</li>
+								<li>[vorlesen]</li>
+								<li>aber was ist eigentlich eine system programming language?</li>
+								<li>ist kotlin?</li>
 								<li>und rust will "schnell" sein</li>
 								<li>ok, nichts neues, das sind C und C++ z.b. auch. und schnell ist ja eh relativ</li>
 							</ul>
@@ -469,9 +515,10 @@ fun main(args: Array<String>) {
 				<section>
 					<img src="img/language_ranking_with_tiobe.png">
 					<aside class="notes">
-						schaut man mal welche sprachen tatsächlich viel genutzt werden.
-						das ist krass, C und C++ sind uralt und unter den ersten Plätzen.
-
+						<ul>
+							<li>schaut man mal welche sprachen tatsächlich viel genutzt werden.</li>
+							<li>das ist krass, C und C++ sind uralt und unter den ersten Plätzen.</li>
+						</ul>
 					</aside>
 				</section>
 
@@ -479,9 +526,11 @@ fun main(args: Array<String>) {
 				<section>
 					<img src="img/system_prgramming_languages_reduced.png">
 					<aside class="notes">
-						schaut man welche sprache heute tatsächlich noch relevanz haben, landet man meiner Meinung nach bei 3 Sprachen.
-						Swift hatte ich raus genommen, weil ich es nicht als Konkurrent zu C / C++ sehe.
-
+						<ul>
+							<li>habe mal auf die redudiert die noch einfluss haben und swift entfernt.</li>
+							<li>...luft wird dünn...</li>
+							<li>wenn man dann schaut wie viele jahre dazwischen liegen</li>
+						</ul>
 					</aside>
 				</section>
 
@@ -489,10 +538,10 @@ fun main(args: Array<String>) {
 					<img src="img/more_than_a_hype.jpg" />
 					<aside class="notes">
 						<ul>
-
-							<li>nun sieht man, dass es in dem bereich garnicht soviel gibt.</li>
+							<li>wird einem erstmal klar, dass es zu dem thema garnicht soviel gibt.</li>
 							<li>nun könnte man sagen, ich will garkein C und C++ lernen, wofür dann rust?</li>
 							<li>die 31 Jahre zeigen wie schwer es ist.</li>
+							<li>was schwer ist, ist oft interessant und man kann viel von lernen.</li>
 							<li>mozilla hat rund 6 jahre forschung in die reinen sprachkonzepte gesteckt.</li>
 						</ul>
 					</aside>
@@ -531,6 +580,12 @@ fun main(args: Array<String>) {
 									<li>Es kompilliert schlicht nicht, wenn es sich nicht sicher ist.</li>
 								</ul>
 							</li>
+							<li>
+								man muss verstehen, dass rust primär aus einem grund entwickelt wurde
+								<ul>
+									<li>große codebases maintainbar zu halten. ohne jegliche performancekosten.</li>
+								</ul>
+							</li>
 						</ul>
 					</aside>
 				</section>
@@ -547,7 +602,10 @@ fun main(args: Array<String>) {
 					<aside class="notes">
 						<ul>
 
-							<li>...</li>
+							<li>programmiert man C fühlt sich das für mich jedenfalls oft so an.</li>
+							<li>... man kommt vorran</li>
+							<li>ggf. aber auch nicht, es schmerzt.</li>
+							<li>... immer diese ungewissheit, ob man sich nicht doch ins bein geschossen hat.</li>
 						</ul>
 					</aside>
 				</section>
@@ -562,21 +620,38 @@ fun main(args: Array<String>) {
 					<aside class="notes">
 						<ul>
 
-							<li>nun sieht man, dass es in dem bereich garnicht soviel gibt.</li>
-							<li>nun könnte man sagen, ich will garkein C und C++ lernen, wofür dann rust?</li>
-							<li>die 31 Jahre zeigen wie schwer es ist.</li>
-							<li>mozilla hat rund 6 jahre forschung in die reinen sprachkonzepte gesteckt.</li>
+							<li>rust ist völlig konträr</li>
+							<li>ich hab dazu mal ein quote</li>
 						</ul>
 					</aside>
 				</section>
 
+				<section>
+					<img src="img/fearless_in_rust.png">
+					<aside class="notes">
+						<ul>
+							<li>rust ist völlig konträr</li>
+							<li>ich hab dazu mal ein quote</li>
+							<li>
+								<ul>
+									<li>ich kann das super nachvollziehen</li>
+									<li>... wie macht rust das?</li>
+								</ul>
+							</li>
+						</ul>
+					</aside>
+				</section>
+
+				{#
 				<section>
 					<img src="img/rust_spoils_me2.png" style="max-width: 70%"/>
 					<br/>
 					<small>
 						<a href="https://twitter.com/gilescope/status/992309474881822720">twitter.com</a>
 					</small>
+
 				</section>
+				#}
 
 				<section>
 					<h3>das tolle an Rust, sind dessen Einschränkungen.</h3>
@@ -679,6 +754,7 @@ pub fn main() {
 							<li>wir können eine Referenz übergeben.</li>
 							<li>würden wir einen String übergeben. würde die Funktion diesen String besitzen. der Besitzer gibt den String wieder frei.</li>
 							<li>Referenzen müssen nicht freigegeben werden. Irgendwo muss ja ein besitzer sein, und dieser wird diesen garantiert freigeben.</li>
+							<li>in der theorie ganz einfach, in der praxis schwierig :)</li>
 						</ul>
 					</aside>
 				</section>
@@ -686,7 +762,6 @@ pub fn main() {
 				<section>
 					{% embed "twig/editor.html.twig" %}
 					{% block rust %}
-#![inline(always)]
 pub fn greet(name : &str) {
 	println!("Hello {}", name);
 }
@@ -701,10 +776,35 @@ pub fn main() {
 
 					<aside class="notes">
 						<ul>
-							</ul>
+							<li>so könnten wir unseren String ausleihen.</li>
+							<li>wenn man ihn leiht, gibt man ihn nicht wieder frei. man kann sich sicher sein, es gibt einen owner.</li>
+							<li>
+								weitere einschränkungen
+								<ul>
+									<li>es muss einen owner geben. jemand muss ihn freigeben.</li>
+									<li>du kannst mehrfach von einer referenz lesen, aber nicht lesen uns schreiben :)</li>
+								</ul>
+							</li>
+							<li>beispiel klar?</li>
+							<li>warum nicht &String</li>
+						</ul>
 					</aside>
 				</section>
-					
+
+				<section>
+					<h1>&String vs &str</h1>
+					<aside class="notes">
+						<ul>
+							<li>jemand ne idee wo der unterschied sein könnte?</li>
+							<li>String ist Heap allociert, kann daher auch wachen.</li>
+							<li>ein &str ist nur eine Zeichenkette von UTF8 Zeichen.</li>
+							<li>das ist eine der ganz wenigen stellen wo rust irgendwas automatisch macht</li>
+							<li>deref trait kann man auch selbst implementieren</li>
+							<li>interessant für irgendwelche "fat pointer"</li>
+						</ul>
+					</aside>
+				</section>
+
 				<section>
 					<small>
 						<a href="https://rustup.rs">https://rustup.rs</a>
@@ -746,6 +846,7 @@ pub fn main() {
 						<ul>
 							<li>support ist erschreckend gut. selbst macros etc.</li>
 							<li>externe bibliotheken etc sind kein problem.</li>
+							<li>rust ist in rust geschrieben, könnt also fast überall rein schauen.</li>
 						</ul>
 					</aside>
 				</section>
@@ -756,7 +857,7 @@ pub fn main() {
 					<aside class="notes">
 						<ul>
 							<li>Rust kommt mit einem language server, funktioniert wie z.b. bei typeskript und hat daher guten support für visual stio code</li>
-							<li>Compiler selbst gibt outocompletion etc. funktioniert sehr gut und wird immer besser.</li>
+							<li>Compiler selbst gibt cutocompletion etc. funktioniert sehr gut und wird immer besser.</li>
 							<li>refactorings direkt im compiler, stimmen immer! :)</li>
 							<li>intelli rust nutzt den language server nicht.</li>
 						</ul>
@@ -765,11 +866,86 @@ pub fn main() {
 
 				<section>
 					<h2>namespaces / finding classes</h2>
-					todo
+					<aside class="notes">
+						<ul>
+							<li>erzähl nicht viel drüber</li>
+							<li>streife das nur, weil ich es in GO ganz drauenhaft finde</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
-					<h3>Tests</h3>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+mod client {
+    fn connect() {
+    }
+}
+
+mod network {
+    fn connect() {
+    }
+
+    mod server {
+        fn connect() {
+        }
+    }
+}
+                    {% endblock %}
+					{% block php %}
+ ├── client.rs
+ └── network.rs
+     └── server.rs
+
+					{% endblock %}
+                    {% endembed %}
+					<aside class="notes">
+						<ul>
+
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+mod client {
+    fn connect() {
+    }
+}
+
+mod network {
+    fn connect() {
+    }
+
+    mod server {
+        fn connect() {
+        }
+    }
+}
+                    {% endblock %}
+					{% block php %}
+ ├── client.rs
+ └── network.rs
+     └── server/lib.rs
+
+					{% endblock %}
+                    {% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>lib.rs ....</li>
+							<li>mit mod statement und inkludiert man die datei.</li>
+							<li>use statements.</li>
+							<li>pub use statements</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>tests</h2>
+				</section>
+
+				<section>
                     {% embed "twig/editor.html.twig" %}
                     {% block rust %}
 pub fn add_two(a: i32) -> i32 {
@@ -791,14 +967,17 @@ mod tests {
 						<ul>
 							<li>cargo doc generiert api docs</li>
 							<li>beste api docs die ich kenne (mit suchfunktion)</li>
-							<li>api docs fürs ganze projekt</li>
 							<li>code beispiele werden als tests ausgeführt.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h3>Lets write a webserver</h3>
+					<img src="img/documentation_tests.png" style="max-width: 60%"/>
+				</section>
+
+				<section>
+					<h3>Lets use a webserver</h3>
                     {% embed "twig/editor.html.twig" %}
                     {% block rust %}
 #![feature(plugin)]
@@ -853,8 +1032,10 @@ fn main() {
                     {% endblock %}
                     {% endembed %}
 					<aside class="notes">
-						etliche variationen (unitialisiert / if return value))
-						Rust -> safe
+						<ul>
+							<li>etliche variationen (unitialisiert / if return value))</li>
+							<li>Rust -> safe</li>
+						</ul>
 					</aside>
 				</section>
 
@@ -875,7 +1056,10 @@ fn main() {
                     {% endblock %}
                     {% endembed %}
 					<aside class="notes">
-
+						<ul>
+							<li>beliebige scopes</li>
+							<li>letzte expression wird zurück gegeben</li>
+						</ul>
 					</aside>
 				</section>
 
@@ -949,7 +1133,10 @@ pub fn main() {
 					{% endembed %}
 					<aside class="notes">
 						<ul>
-							<li>foo</li>
+							<li>unwrap bedeuet quasi gebe mir den wert, wenn nicht vorhanden töte das prog.</li>
+							<li>unwrap ist safe, prog. ist ja danach aus. </li>
+							<li>am anfang hat man unwraps, dann optimiert man diese alle weg</li>
+							<li>kein unwrap = prog. läuft.</li>
 						</ul>
 					</aside>
 				</section>
@@ -1357,6 +1544,29 @@ fn main() { }
                     {% endblock %}
 					{% endembed %}
 				</section>
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+struct Person;
+
+trait Greetable {
+    fn greet(&self);
+}
+
+impl Greetable for Person {
+    fn greet(&self) {
+        println!("hello :)");
+    }
+}
+
+fn greet(p : &Greetable) {
+	println!("hello :)");
+}
+
+fn main() { greet(&Person{}); }
+                    {% endblock %}
+					{% endembed %}
+				</section>
 
 				<section>
                     {% embed "twig/editor.html.twig" %}
@@ -1442,6 +1652,75 @@ fn main() {
                     {% endblock %}
 					{% endembed %}
 				</section>
+
+				<section>
+					<h2>returning trait objects.</h2>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+pub trait Greetable {}
+pub struct Person;
+impl Greetable for Person {}
+
+pub fn return_greetable() -> Greetable {
+    Person {}
+}
+                    {% endblock %}
+					{% endembed %}
+					<aside class="notes">
+						<pre>
+							let x : () =
+						</pre>
+					</aside>
+
+				</section>
+
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+pub trait Greetable {}
+pub struct Person;
+impl Greetable for Person {}
+
+pub fn return_greetable() -> Greetable {
+    Person {}
+}
+                    {% endblock %}
+					{% endembed %}
+					<aside class="notes">
+						<pre>
+							let x : () =
+						</pre>
+					</aside>
+
+				</section>
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+pub trait Greetable {}
+pub struct Person;
+impl Greetable for Person {}
+
+pub fn return_greetable<T>() -> T where T : Greetable {
+    Person {}
+}
+
+pub fn main() {}
+                    {% endblock %}
+					{% endembed %}
+					<aside class="notes">
+						<pre>
+							funktioniert sowas?
+							das kann nicht funktionieren weil generics statisch dispatched werden.
+							// todo, ggf etwas besser erklären
+						</pre>
+					</aside>
+
+				</section>
+
 
 				<section>
 					<h2>lifetime</h2>

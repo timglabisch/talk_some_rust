@@ -1,11 +1,15 @@
 
-fun main(args: Array<String>) {
-
-    listOf(1, 2, 3)
-        .map({ v -> println(v); });
-
+interface Greetable {
+    fun greet();
 }
 
-// 1
-// 2
-// 3
+class Person : Greetable {
+    override fun greet() {
+        println("greet");
+    }
+}
+
+fun main(args: Array<String>) {
+    val person : Greetable = Person();
+    person.greet();
+}

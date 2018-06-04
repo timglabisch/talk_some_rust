@@ -1,7 +1,8 @@
-fn main() {
+pub fn greet(name : &String) {
+	println!("Hello {}", name);
+}
 
-    vec![1, 2, 3]
-		.iter()
-        .map(|x|{ println!("{}", x); });
-
+pub fn main() {
+	let name = "Rheinjug";
+	greet(&name);
 }
