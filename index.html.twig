@@ -1165,37 +1165,18 @@ pub fn main() {
 					{% endembed %}
 					<aside class="notes">
 						<ul>
-							<li>foo</li>
-						</ul>
-					</aside>
-				</section>
-
-
-				<section>
-					{% embed "twig/editor.html.twig" %}
-					{% block rust %}
-extern crate reqwest;
-
-pub fn fetch_google() -> Result<String, String> {
-	match reqwest::get("https://www.rust-lang.org") {
-		Err(_) => Err("could not fetch www.rust-lang.org".to_string()),
-		Ok(ref mut response) => {
-			match response.text() {
-				Err(_) => Err("could not decode text".to_string()),
-				Ok(text) => Ok(text)
-			}
-		}
-	}
-}
-
-pub fn main() {
-	println!("{:#?}", &fetch_google());
-}
-					{% endblock %}
-					{% endembed %}
-					<aside class="notes">
-						<ul>
-							<li>foo</li>
+							<li>rust unterstützt pattern matching</li>
+							<li>
+								man kann fast alles matchen
+								<ul>
+									<li>enums</li>
+									<li>structs in structs</li>
+									<li>tuple</li>
+									<li>beliebig geschaftelt</li>
+									<li>teile von structs</li>
+									<li>referenzen auf teile von structs...</li>
+								</ul>
+							</li>
 						</ul>
 					</aside>
 				</section>
@@ -1206,7 +1187,7 @@ pub fn main() {
 extern crate reqwest;
 
 pub fn fetch_google() -> Result<String, reqwest::Error> {
-	reqwest::get("https://www.rust-lang.org")?.text()
+	try!(reqwest::get("https://www.rust-lang.org")).text()
 }
 
 pub fn main() {
@@ -1216,7 +1197,8 @@ pub fn main() {
 					{% endembed %}
 					<aside class="notes">
 						<ul>
-							<li>foo</li>
+							<li>try! durch ein ? ersetzen</li>
+							<li>ein return in einem macro returnt raus</li>
 						</ul>
 					</aside>
 				</section>
@@ -1239,7 +1221,10 @@ pub fn main() {
 					{% endembed %}
 					<aside class="notes">
 						<ul>
-							<li>foo</li>
+							<li>weiteres beispiel</li>
+							<li>rust hat kein exception handling</li>
+							<li>führt dazu, dass man jederzeit jeden fehler handhaben muss</li>
+							<li>es gibt crates welches error handling sehr einfach machen, traces etc.</li>
 						</ul>
 					</aside>
 				</section>
@@ -1252,7 +1237,8 @@ pub fn main() {
 					{% block rust %}
 use std::num::ParseIntError;
 
-fn multiply(first_number_str: &str, second_number_str: &str) -> Result<i32, ParseIntError> {
+fn multiply(first_number_str: &str, second_number_str: &str)
+	-> Result<i32, ParseIntError> {
     let first_number = first_number_str.parse::<i32>()?;
     let second_number = second_number_str.parse::<i32>()?;
 
@@ -1274,6 +1260,14 @@ fn main() {
 					{% endblock %}
 
 					{% endembed %}
+
+					<aside class="notes">
+						<ul>
+							<li>etwas komplexeresbeispiel</li>
+							<li>parsen kann fehlschlagen</li>
+							<li>Result ist ein Enum, d.h. wir können auch drauf matchen.</li>
+						</ul>
+					</aside>
 				</section>
 
 
@@ -1300,6 +1294,17 @@ fn main() {
 					{% endblock %}
 
 					{% endembed %}
+						<aside class="notes">
+						<ul>
+							<li>die enums Result und Option bringen viele hilfsunktionen mit</li>
+							<li>errorhandling ist ergonomisch</li>
+						</ul>
+					</aside>
+				</section>
+
+
+				<section>
+					<h2>basic functional stuff</h2>
 				</section>
 
 				<section>
@@ -1322,10 +1327,11 @@ fn main() {
 
 					<aside class="notes">
 						<ul>
-							<li>foo</li>
+							<li>typischer rust code, etwas funktional.</li>
 						</ul>
 					</aside>
 				</section>
+
 
 				<section>
 					{% embed "twig/editor.html.twig" %}
@@ -1342,13 +1348,54 @@ pub fn main() {
 
 					<aside class="notes">
 						<ul>
-							<li>todo, wie nennt sich der syntax?</li>
+							<li>function pointer sind in rust Typen.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h3>Generics</h3>
+					{% embed "twig/editor.html.twig" %}
+					{% block rust %}
+fn do_greet<T>(p : T) where T : Fn() -> String  {
+	println!("hello {}", &p());
+}
+
+pub fn main() {
+	do_greet(||{ "rheinjug".to_string() });
+}
+					{% endblock %}
+					{% endembed %}
+
+					<aside class="notes">
+						<ul>
+							<li>wir können das ganze aber auch generisch formulieren.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<a target="_blank" href="https://doc.rust-lang.org/std/ops/index.html#traits">
+						<img src="img/rust_fn_traits.png"/>
+					</a>
+				</section>
+				<section>
+					<a target="_blank" href="https://stackoverflow.com/a/30232500/2541932">
+						<img src="img/rust_fn_trait2.png"/>
+					</a>
+				</section>
+
+{#
+				<section>
+					<h2>Generics</h2>
+					<aside class="notes">
+						<ul>
+							<li>wir haben ja grade schon generics gesehen, hier noch nen paar beispiele</li>
+						</ul>
+					</aside>
+				</section>
+
+
+				<section>
                     {% embed "twig/editor.html.twig" %}
                     {% block rust %}
 enum May<T> {
@@ -1371,10 +1418,15 @@ fn main() {
 }
 					{% endblock %}
 					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>So in der art ist option implementiert.</li>
+						</ul>
+					</aside>
 				</section>
-
+#}
 				<section>
-					<h3>Traits</h3>
+					<h3>Traits #2</h3>
 				</section>
 
 				<section>
@@ -1432,6 +1484,13 @@ pub fn main() {
 
                     {% endblock %}
 					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>Beispiel hatten wir eben schonmal.</li>
+							<li>wir implementieren eine generische funktion welche T bekommt, wobei T einen trait implementiert, dass dieser zur Funktion gehört.</li>
+							<li>wie wäre es, wenn wir ein Trait für ein Trait implementieren?</li>
+						</ul>
+					</aside>
 				</section>
 				<section>
 					{% embed "twig/editor.html.twig" %}
@@ -1451,7 +1510,13 @@ pub fn main() {
 }
 					{% endblock %}
 					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>hier implementieren wir Greetable für alle Funktionen, welche einen String zurückgeben.</li>
+						</ul>
+					</aside>
 				</section>
+
 				<section>
 					{% embed "twig/editor.html.twig" %}
 					{% block rust %}
@@ -1473,6 +1538,14 @@ pub fn main() {
 }
 					{% endblock %}
 					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>Solche Konstrukte lassen sich auch noch erweitern.</li>
+							<li>abstrakte typen u.s.w.</li>
+							<li>man kann auch sagen T muss dieses und jenes trait implementieren</li>
+							<li>man kann auch zusätzlich noch angeben, dass etwas mindest so lange verfügbar sein muss wie etwas anderes... später mehr</li>
+						</ul>
+					</aside>
 				</section>
 
 
@@ -1845,7 +1918,16 @@ fn main() {
 				</section>
 
 				<section>
-					<h1>functional stuff</h1>
+					<img src="img/nom_parser.png">
+				</section>
+
+				<section>
+					<img src="img/nom_parser2.png">
+				</section>
+
+
+				<section>
+					<h2>zero cost (functional example)</h2>
 				</section>
 
 
@@ -2113,6 +2195,106 @@ fn main() {
 				</section>
 				<section>
 					<img src="img/rust_team.png" style="max-width: 25%"/>
+				</section>
+
+				<section>
+					<h2>bonus: lifetime</h2>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+struct Person {
+    name: String
+}
+
+fn main() {
+    let name = "tim";
+
+    let p = Person {
+        name: name.to_string()
+    };
+}
+					{% endblock %}
+
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>eigentlich schade, tim liegt ja schon im ram.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+struct Person<'a> {
+    name: &'a str
+}
+
+fn main() {
+    let name = "tim";
+
+    let p = Person { name };
+}
+					{% endblock %}
+
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>eigentlich schade, tim liegt ja schon im ram.</li>
+							<li>wir sagen der parameter lebt wenigstens so lang, wie das struct</li>
+							<li>der name apostroph a ist egal, es ist mehr wie eine gleichung.</li>
+							<li>stack wird umgekehr freigegeben, daher klappt der code, erst p dann name</li>
+							<li>drop einbauen.</li>
+							<li>warum klappts noch immer?</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+struct Person<'a> {
+    name: &'a str
+}
+
+fn main() {
+    let name = "tim".to_string();
+
+    let p = Person { name: &name };
+
+    drop(name)
+}
+					{% endblock %}
+
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>
+								das ganze funktioniert in beliebig tiefen strukturen, wird aber recht schnell sehr kompliziert
+							</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>bonus: how trim works</h2>
+				</section>
+
+				<section>
+					<img src="img/trim1.png"/>
+				</section>
+				<section>
+					<img src="img/trim2.png"/>
+				</section>
+				<section>
+					<img src="img/trim3.png"/>
+				</section>
+				<section>
+					<img src="img/trim4.png"/>
 				</section>
 
 			</div>

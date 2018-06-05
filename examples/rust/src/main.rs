@@ -1,8 +1,8 @@
-pub fn greet(name : &String) {
-	println!("Hello {}", name);
-}
 
 pub fn main() {
-	let name = "Rheinjug";
-	greet(&name);
+	let name = "Rheinjug".to_string();
+	println!("{}", name.trim());
+
+
+	::core::str::StrExt::trim_matches(self, pat)
 }
