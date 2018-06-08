@@ -1607,13 +1607,20 @@ fn main() {
 						<img src="img/static_dispatch1.png">
 					{% endblock %}
 					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>person hat wirklich nur die größe von age, und es ist ganz klar, wo age im speicher liegt</li>
+						</ul>
+					</aside>
 				</section>
 
 
 				<section>
                     {% embed "twig/editor.html.twig" %}
                     {% block rust %}
-struct Person;
+struct Person {
+	age: i32
+}
 
 impl Person {
 	fn greet(&self) {
@@ -1622,13 +1629,19 @@ impl Person {
 }
 
 fn main() {
-	Person{}.greet();
+	Person{ age: 10 }.greet();
 }
                     {% endblock %}
 					{% block html %}
 						<img src="img/static_dispatch2.png">
 					{% endblock %}
 					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>der compiler weiß genau, wo der code liegt.</li>
+							<li>let p = Person {age:12}; Person::greet(&p);</li>
+						</ul>
+					</aside>
 				</section>
 
 
@@ -1650,6 +1663,11 @@ fn greet(p : &Person) {
 fn main() { }
                     {% endblock %}
 					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>wenn wir nun eine greet funktion haben, weiß der compiler es noch immer ganz genau</li>
+						</ul>
+					</aside>
 				</section>
 				<section>
                     {% embed "twig/editor.html.twig" %}
@@ -1673,6 +1691,17 @@ fn greet(p : &Greetable) {
 fn main() { greet(&Person{}); }
                     {% endblock %}
 					{% endembed %}
+					{% block html %}
+						<img src="img/static_dispatch3.png">
+					{% endblock %}
+					<aside class="notes">
+						<ul>
+							<li>wie schaut es hier aus?</li>
+							<li>der compiler weiß idr. nur noch, dass er ein greetable bekommt</li>
+							<li>das sind sogenante trait objekte.</li>
+							<li>in diesem fall wird eine vtable (i.d.r.) benötigt.</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -1695,6 +1724,16 @@ impl<T> Person
 fn main() { }
                     {% endblock %}
 					{% endembed %}
+						<aside class="notes">
+						<ul>
+							<li>wenn wir das ganze generisch formulieren, haben wir auch ein static dispatch</li>
+							<li>warum? funktion wird kopiert ...</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>comparing asm</h2>
 				</section>
 
 

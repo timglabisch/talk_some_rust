@@ -1,3 +1,26 @@
+RUN
+
+
+RELEASE
+
+STABLE
+
+TOOLS
+
+  
+ASM
+Close
+Standard Error
+   Compiling playground v0.0.1 (file:///playground)
+warning: due to multiple output types requested, the explicitly specified output file name will be adapted for each output type
+
+warning: ignoring --out-dir flag due to -o flag
+
+warning: ignoring -C extra-filename flag due to -o flag
+
+    Finished release [optimized] target(s) in 3.75 secs
+Result
+
 std::rt::lang_start:
 	pushq	%rax
 	movq	%rdx, %rax
@@ -26,67 +49,18 @@ core::ops::function::FnOnce::call_once:
 core::ptr::drop_in_place:
 	retq
 
-<&'a T as core::fmt::Display>::fmt:
-	movq	(%rdi), %rdi
-	jmp	core::fmt::num::<impl core::fmt::Display for i32>::fmt@PLT
-
 playground::main:
-	pushq	%rbp
-	pushq	%r15
-	pushq	%r14
-	pushq	%r13
-	pushq	%r12
-	pushq	%rbx
-	subq	$72, %rsp
-	leaq	.Lref.1(%rip), %rax
-	movq	%rax, (%rsp)
-	movq	%rsp, %r14
-	movq	%r14, 8(%rsp)
-	leaq	<&'a T as core::fmt::Display>::fmt(%rip), %r15
-	movq	%r15, 16(%rsp)
-	leaq	.Lref.4(%rip), %r12
-	movq	%r12, 24(%rsp)
-	movq	$2, 32(%rsp)
-	leaq	.Lref.5(%rip), %r13
-	movq	%r13, 40(%rsp)
-	movq	$1, 48(%rsp)
-	leaq	8(%rsp), %rbp
-	movq	%rbp, 56(%rsp)
-	movq	$1, 64(%rsp)
-	leaq	24(%rsp), %rbx
-	movq	%rbx, %rdi
+	subq	$56, %rsp
+	leaq	.Lref.2(%rip), %rax
+	movq	%rax, 8(%rsp)
+	movq	$1, 16(%rsp)
+	movq	$0, 24(%rsp)
+	leaq	.Lref.3(%rip), %rax
+	movq	%rax, 40(%rsp)
+	movq	$0, 48(%rsp)
+	leaq	8(%rsp), %rdi
 	callq	std::io::stdio::_print@PLT
-	leaq	.Lref.1+4(%rip), %rax
-	movq	%rax, (%rsp)
-	movq	%r14, 8(%rsp)
-	movq	%r15, 16(%rsp)
-	movq	%r12, 24(%rsp)
-	movq	$2, 32(%rsp)
-	movq	%r13, 40(%rsp)
-	movq	$1, 48(%rsp)
-	movq	%rbp, 56(%rsp)
-	movq	$1, 64(%rsp)
-	movq	%rbx, %rdi
-	callq	std::io::stdio::_print@PLT
-	leaq	.Lref.1+8(%rip), %rax
-	movq	%rax, (%rsp)
-	movq	%r14, 8(%rsp)
-	movq	%r15, 16(%rsp)
-	movq	%r12, 24(%rsp)
-	movq	$2, 32(%rsp)
-	movq	%r13, 40(%rsp)
-	movq	$1, 48(%rsp)
-	movq	%rbp, 56(%rsp)
-	movq	$1, 64(%rsp)
-	movq	%rbx, %rdi
-	callq	std::io::stdio::_print@PLT
-	addq	$72, %rsp
-	popq	%rbx
-	popq	%r12
-	popq	%r13
-	popq	%r14
-	popq	%r15
-	popq	%rbp
+	addq	$56, %rsp
 	retq
 
 main:
@@ -110,30 +84,11 @@ main:
 	.quad	std::rt::lang_start::{{closure}}
 	.quad	core::ops::function::FnOnce::call_once
 
-.Lref.1:
-	.long	1
-	.long	2
-	.long	3
+str.1:
+	.ascii	"hello :)\n"
 
-str.2:
+.Lref.2:
+	.quad	str.1
+	.quad	9
 
-str.3:
-	.byte	10
-
-.Lref.4:
-	.quad	str.2
-	.quad	0
-	.quad	str.3
-	.quad	1
-
-.Lref.5:
-	.quad	1
-	.quad	0
-	.quad	3
-	.zero	8
-	.quad	3
-	.zero	8
-	.long	32
-	.long	0
-	.byte	3
-	.zero	7
+.Lref.3:
