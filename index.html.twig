@@ -186,6 +186,58 @@ echo "hello rheinjug";
 						</aside>
 					</section>
 
+					<section data-background="img/rust_rain.gif">
+					</section>
+
+					<section>
+						<p class="fragment" data-fragment-index="0">Modern</p>
+						<p class="fragment" data-fragment-index="1">Stable (& used)</p>
+						<p class="fragment" data-fragment-index="2">Large Projects</p>
+						<p class="fragment" data-fragment-index="3">Huge, great community</p>
+						<p class="fragment" data-fragment-index="4">Tooling</p>
+						<p class="fragment" data-fragment-index="5"><strong>Fast</strong> (like C / C++)</p>
+						<p class="fragment" data-fragment-index="6">Zero Cost Abstractions</p>
+						<p class="fragment" data-fragment-index="7"><strong>Safe</strong> (no Seqfaults, Dataraces, ...)</p>
+						<p class="fragment" data-fragment-index="8"><strong>Concurrent</strong></p>
+						<p class="fragment" data-fragment-index="9">No Runtime (& no GC)</p>
+
+						<aside class="notes">
+							<p>
+								Wenn rust ein quatett wäre, hier ein ganz kurzer abriss, was es ausmacht.
+							</p>
+							<ul>
+								<li>-</li>
+								<li>neue versionen werden gegen alles was im packagemanager existiert getestet</li>
+								<li>entwickelt von mozilla weil C++ für Firefox nicht ausreichend skaliert</li>
+								<li>
+									<ul>
+										<li>Dokumentation ist weltklasse</li>
+										<li>Mozilla zahlt ein Team um an doku zu arbeiten</li>
+										<li>Vorlesungen</li>
+									</ul>
+								<li>Tooling kommt aus der Ruby ecke, sehr einfach!</li>
+								<li>alles dreht sich um Performance (sehr spannend wie gelöst)</li>
+								<li>rusts stärke ist, dass es nicht kompiliert</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section>
+						<p class="fragment" data-fragment-index="0">
+							hard to master
+						</p>
+						<p class="fragment" data-fragment-index="1">
+							<img src="img/we_are_rust.png">
+						</p>
+
+						<aside class="notes">
+							<ul>
+								<li>harte lernkurve - nicht einfach ins team werfen</li>
+								<li>sehr expliziter syntax</li>
+							</ul>
+						</aside>
+					</section>
+
 					<section>
 						<h2>Basics</h2>
 						<aside class="notes">
@@ -524,7 +576,7 @@ fun main(args: Array<String>) {
 
 
 				<section>
-					<img src="img/system_prgramming_languages_reduced.png">
+					<img src="img/system_prgramming_languages_reduced.png" style="max-width: 65%">
 					<aside class="notes">
 						<ul>
 							<li>habe mal auf die redudiert die noch einfluss haben und swift entfernt.</li>
@@ -653,6 +705,7 @@ fun main(args: Array<String>) {
 				</section>
 				#}
 
+				{#
 				<section>
 					<h3>das tolle an Rust, sind dessen Einschränkungen.</h3>
 					<aside class="notes">
@@ -663,6 +716,7 @@ fun main(args: Array<String>) {
 						</ul>
 					</aside>
 				</section>
+				#}
 
 				<section>
 					{% embed "twig/editor.html.twig" %}
@@ -677,28 +731,6 @@ pub fn main() {
 }
 					{% endblock %}
 
-					{% block php %}
-// kotlin
-private fun greet(name : String) {
-	println("Hello " + name);
-}
-
-fun main(args: Array<String>) {
-	val name = "Rheinjug";
-	greet(name)
-}
-
-// php
-function greet(string $name) {
-	echo sprintf(
-	"Hello %s", $name
-	);
-}
-
-$name = "PHPUG";
-greet($name);
-
-					{% endblock %}
 					{% endembed %}
 
 					<aside class="notes">
@@ -791,6 +823,7 @@ pub fn main() {
 					</aside>
 				</section>
 
+				{#
 				<section>
 					<h1>&String vs &str</h1>
 					<aside class="notes">
@@ -804,6 +837,7 @@ pub fn main() {
 						</ul>
 					</aside>
 				</section>
+				#}
 
 				<section>
 					<small>
