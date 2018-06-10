@@ -1,26 +1,3 @@
-RUN
-
-
-RELEASE
-
-STABLE
-
-TOOLS
-
-  
-ASM
-Close
-Standard Error
-   Compiling playground v0.0.1 (file:///playground)
-warning: due to multiple output types requested, the explicitly specified output file name will be adapted for each output type
-
-warning: ignoring --out-dir flag due to -o flag
-
-warning: ignoring -C extra-filename flag due to -o flag
-
-    Finished release [optimized] target(s) in 3.45 secs
-Result
-
 std::rt::lang_start:
 	pushq	%rax
 	movq	%rdx, %rax
@@ -47,21 +24,104 @@ core::ops::function::FnOnce::call_once:
 	jmp	<() as std::termination::Termination>::report@PLT
 
 core::ptr::drop_in_place:
+	movq	%rdi, %rax
+	movq	(%rax), %rdi
+	testq	%rdi, %rdi
+	je	.LBB3_2
+	movq	8(%rax), %rsi
+	testq	%rsi, %rsi
+	je	.LBB3_2
+	movl	$1, %edx
+	jmp	__rust_dealloc@PLT
+
+.LBB3_2:
 	retq
 
-playground::main:
-	subq	$56, %rsp
-	leaq	.Lref.2(%rip), %rax
-	movq	%rax, 8(%rsp)
-	movq	$1, 16(%rsp)
-	movq	$0, 24(%rsp)
-	leaq	.Lref.3(%rip), %rax
-	movq	%rax, 40(%rsp)
-	movq	$0, 48(%rsp)
-	leaq	8(%rsp), %rdi
-	callq	std::io::stdio::_print@PLT
-	addq	$56, %rsp
+core::ptr::drop_in_place:
+	movq	8(%rdi), %rsi
+	testq	%rsi, %rsi
+	je	.LBB4_1
+	movq	(%rdi), %rdi
+	movl	$1, %edx
+	jmp	__rust_dealloc@PLT
+
+.LBB4_1:
 	retq
+
+core::ptr::drop_in_place:
+	retq
+
+<&'a T as core::fmt::Display>::fmt:
+	movq	%rsi, %rax
+	movq	(%rdi), %rcx
+	movq	(%rcx), %rdi
+	movq	16(%rcx), %rsi
+	movq	%rax, %rdx
+	jmp	<str as core::fmt::Display>::fmt@PLT
+
+playground::main:
+	pushq	%rbx
+	subq	$128, %rsp
+	leaq	str.1(%rip), %rsi
+	leaq	104(%rsp), %rdi
+	movl	$3, %edx
+	callq	<alloc::string::String as core::convert::From<&'a str>>::from@PLT
+	movups	104(%rsp), %xmm0
+	movaps	%xmm0, (%rsp)
+	movq	120(%rsp), %rax
+	movq	%rax, 16(%rsp)
+	cmpq	$0, (%rsp)
+	je	.LBB7_1
+	movq	16(%rsp), %rax
+	movq	%rax, 64(%rsp)
+	movaps	(%rsp), %xmm0
+	movaps	%xmm0, 48(%rsp)
+	leaq	48(%rsp), %rax
+	movq	%rax, 80(%rsp)
+	leaq	80(%rsp), %rax
+	movq	%rax, 88(%rsp)
+	leaq	<&'a T as core::fmt::Display>::fmt(%rip), %rax
+	movq	%rax, 96(%rsp)
+	leaq	.Lref.4(%rip), %rax
+	movq	%rax, (%rsp)
+	movq	$2, 8(%rsp)
+	leaq	.Lref.6(%rip), %rax
+	movq	%rax, 16(%rsp)
+	movq	$1, 24(%rsp)
+	leaq	88(%rsp), %rax
+	movq	%rax, 32(%rsp)
+	movq	$1, 40(%rsp)
+	movq	%rsp, %rdi
+	callq	std::io::stdio::_print@PLT
+	movq	56(%rsp), %rsi
+	testq	%rsi, %rsi
+	je	.LBB7_7
+	movq	48(%rsp), %rdi
+	movl	$1, %edx
+	callq	__rust_dealloc@PLT
+
+.LBB7_7:
+	addq	$128, %rsp
+	popq	%rbx
+	retq
+
+.LBB7_1:
+	leaq	str.5(%rip), %rdi
+	movl	$3, %esi
+	callq	core::option::expect_failed@PLT
+	ud2
+	movq	%rax, %rbx
+	movq	%rsp, %rdi
+	callq	core::ptr::drop_in_place
+	movq	%rbx, %rdi
+	callq	_Unwind_Resume@PLT
+	ud2
+	movq	%rax, %rbx
+	leaq	48(%rsp), %rdi
+	callq	core::ptr::drop_in_place
+	movq	%rbx, %rdi
+	callq	_Unwind_Resume@PLT
+	ud2
 
 main:
 	pushq	%rax
@@ -85,10 +145,30 @@ main:
 	.quad	core::ops::function::FnOnce::call_once
 
 str.1:
-	.ascii	"hello :)\n"
+	.ascii	"tim"
 
-.Lref.2:
-	.quad	str.1
-	.quad	9
+str.2:
 
-.Lref.3:
+str.3:
+	.byte	10
+
+.Lref.4:
+	.quad	str.2
+	.quad	0
+	.quad	str.3
+	.quad	1
+
+str.5:
+	.zero	3,46
+
+.Lref.6:
+	.quad	1
+	.quad	0
+	.quad	3
+	.zero	8
+	.quad	3
+	.zero	8
+	.long	32
+	.long	0
+	.byte	3
+	.zero	7
