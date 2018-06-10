@@ -239,6 +239,10 @@ echo "hello rheinjug";
 					</section>
 
 					<section>
+						<img src="img/rust_vs_fo_choose_go.png" />
+					</section>
+
+					<section>
 						<h2>Basics</h2>
 						<aside class="notes">
 							<ul>
@@ -894,6 +898,20 @@ pub fn main() {
 							<li>Compiler selbst gibt cutocompletion etc. funktioniert sehr gut und wird immer besser.</li>
 							<li>refactorings direkt im compiler, stimmen immer! :)</li>
 							<li>intelli rust nutzt den language server nicht.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img src="img/run_rust_everywhere.png" style="max-width:60%" />
+					<aside class="notes">
+						<ul>
+							<li>Rust hat keine runtime und ist daher quasi überall einsetzbar.</li>
+							<li>graalvm ist serh interessant</li>
+							<li>rust lässt sich auch von C aus callen, daher quasi überall einsetzbar</li>
+							<li>webassemly ist auch sehr interessant. nicht nur fürs web. -> später ggf. mehr</li>
+							<li>Graalvm ist für euch sicher interessant</li>
+							<li>Graalvm lässt sich in C embedden, daher bestimmt auch in rust</li>
 						</ul>
 					</aside>
 				</section>
@@ -2217,11 +2235,13 @@ fn main() {
 					{% endblock %}
 
 					{% endembed %}
-					<ul>
-						<li>wo landet der code?</li>
-						<li>direkt embedded im code bereich.</li>
-						<li>d.h. dieser string ist immer da. die lebenszeit ist unendlich</li>
-					</ul>
+					<aside class="notes">
+						<ul>
+							<li>wo landet der code?</li>
+							<li>direkt embedded im code bereich.</li>
+							<li>d.h. dieser string ist immer da. die lebenszeit ist unendlich</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -2238,9 +2258,11 @@ fn main() {
 					{% endblock %}
 
 					{% endembed %}
-					<ul>
-						<li>lebenszeit?</li>
-					</ul>
+					<aside class="notes">
+						<ul>
+							<li>lebenszeit?</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -2595,6 +2617,19 @@ fn main() {
 				</section>
 
 				<section>
+					<img src="img/nebulet.png"/>
+					<aside class="notes">
+						<ul>
+							<li>warum ist das cool?</li>
+							<li>webassembly ist by design sandboxed</li>
+							<li>syscalls brauchen atm z.b. einen kontextswitch</li>
+							<li>bei webassembly wäre dies nicht notwendig...</li>
+							<li>untrusted programs ....</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
 					<h2>bonus: lifetime</h2>
 				</section>
 
@@ -2678,6 +2713,157 @@ fn main() {
 				</section>
 
 				<section>
+					<h2>threading</h2>
+				</section>
+
+				<section>
+					  {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let mut data = vec![1, 2, 3];
+
+    for i in 0..3 {
+        thread::spawn(move || {
+            data[i] += 1;
+        });
+    }
+
+    thread::sleep(Duration::from_millis(50));
+}
+					{% endblock %}
+
+					{% endembed %}
+
+					<aside class="notes">
+						<ul>
+							<li>etwas komplexeres Beispiel</li>
+							<li>ein Owner kann ein Struct oder eine Funktion sein</li>
+							<li>in diesem Fall (syntax für lambda) wird eine Lambda erstelt</li>
+							<li>die lambda wird owner von data</li>
+							<li>Data kann nur einen Owner haben -> womit dies nicht kompilliert</li>
+						</ul>
+					</aside>
+
+				</section>
+
+				<section>
+				  {% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let data = vec![1, 2, 3];
+
+    for i in 0..3 {
+
+        let mut x = data[i].clone();
+
+        thread::spawn(move || {
+            x += 1;
+        });
+    }
+
+    thread::sleep(Duration::from_millis(50));
+}
+					{% endblock %}
+
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>ein Quick Fix wäre einfach die daten zu kopieren</li>
+							<li>dies ist nun threadsafe weil x in die lambda gemoved werden kann</li>
+							<li>doof nur, dass man diese ja dann nicht mehr ausgeben kann</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					{% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let data = Arc::new(Mutex::new(vec![1, 2, 3]));
+
+    for i in 0..3 {
+        let data = data.clone();
+        thread::spawn(move || {
+            let mut data = data.lock().unwrap();
+            data[i] += 1;
+        });
+    }
+
+    thread::sleep(Duration::from_millis(50));
+}
+					{% endblock %}
+
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>Um das wirklicj zu fixen brauchen wir sowas wie einen Mutex</li>
+							<li>Dieser hebelt mit sogenannten unsafe code den borrow checker aus</li>
+							<li>Der mutex selbst ist also in Rust geschrieben</li>
+							<li>Wir beschäftigen uns heute nicht damit wie dieser intern funktioniert</li>
+							<li>wichtig ist, es ist total safe diesen zu nutzen.</li>
+							<li>Fehler führen schlicht dazu, dass dies nicht kompilliert.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img src="img/ryon.png"/>
+					<aside class="notes">
+						<ul>
+							<li>parallel iterator</li>
+						</ul>
+					</aside>
+				</section>
+
+<section>
+					{% embed "twig/editor.html.twig" %}
+
+					{% block rust %}
+extern crate scoped_threadpool;
+use scoped_threadpool::Pool;
+
+fn main() {
+    // Create a threadpool holding 4 threads
+    let mut pool = Pool::new(4);
+
+    let mut vec = vec![0, 1, 2, 3, 4, 5, 6, 7];
+
+    pool.scoped(|scoped| {
+        for e in &mut vec {
+            scoped.execute(move || {
+                *e += 1;
+            });
+        }
+    });
+
+    assert_eq!(vec, vec![1, 2, 3, 4, 5, 6, 7, 8]);
+}
+					{% endblock %}
+
+					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>threadpool welcher parallel arbeitet.</li>
+							<li>garantiert safe.</li>
+							<li>channels, reactor, promisses, asinc io, ...</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
 					<h2>bonus: how trim works</h2>
 				</section>
 
@@ -2692,6 +2878,11 @@ fn main() {
 				</section>
 				<section>
 					<img src="img/trim4.png"/>
+				</section>
+
+				<section>
+					<img src="img/last_slide.png"><br/>
+					<a href="https://medium.com/@deckarep/paradigms-of-rust-for-the-go-developer">https://medium.com/@deckarep/paradigms-of-rust-for-the-go-developer</a>
 				</section>
 
 			</div>
