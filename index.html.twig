@@ -1888,7 +1888,7 @@ impl Person {
 }
 
 fn greet(p : &Person) {
-	println!("hello :)");
+	p.greet()
 }
 
 fn main() { }
@@ -1916,7 +1916,7 @@ impl Greetable for Person {
 }
 
 fn greet(p : &Greetable) {
-	println!("hello :)");
+	p.greet();
 }
 
 fn main() { greet(&Person{}); }
