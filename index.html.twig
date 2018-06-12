@@ -50,57 +50,78 @@
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
 		<script type="application/javascript">
-            $(document).ready(function() {
-                $('.editor').each(function (i, v) {
+            $(document).ready(function () {
 
-                    $(v).css({
-                        'height': $(document).height() - 100,
-                        'border': '1px solid silver',
-                        'display': 'flex',
-                        'justify-content': 'flex-start'
+                Reveal.addEventListener('slidechanged', function (event) {
+
+                    let slide = Reveal.getSlide(event.indexh + 1);
+
+                    if (!slide) {
+                        return;
+					}
+
+                    if ($(slide).data('loaded')) {
+                        return;
+                    }
+
+
+                    $(slide).find('.editor').each(function (i, v) {
+
+                        $(v).css({
+                            'height': $(document).height() - 100,
+                            'border': '1px solid silver',
+                            'display': 'flex',
+                            'justify-content': 'flex-start'
+                        });
+
+                        let rust_pen = "http://127.0.0.1:5000";
+                        //var rust_pen = "https://play.rust-lang.org/";
+
+                        let rust_code = $(v).data('code-rust');
+
+
+                        $(v).html('');
+
+
+                        if (rust_code) {
+                            console.log("frame x");
+                            $(v).append($('<iframe style="flex: 1 1 auto;overflow:scroll"/>').attr('src', rust_pen + '/?pageMode=presentation&code=' + encodeURIComponent(rust_code)));
+                        }
+
+                        let php_code = $(v).data('code-php');
+                        if (php_code && php_code.trim()) {
+                            let php_code_node = $('<div class="right-code"><pre><code data-trim data-noescape class="code"></code></pre></div>');
+                            php_code_node.find('.code').text(php_code);
+                            $(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(php_code_node));
+                            return;
+                        }
+
+                        let html_code = $(v).data('code-html');
+                        if (html_code && html_code.trim()) {
+                            $(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(html_code));
+                            return;
+                        }
+
                     });
 
-                    let rust_pen = "http://127.0.0.1:5000";
-                    //var rust_pen = "https://play.rust-lang.org/";
+                    $(slide).find('.editor > *').each(function (i, v) {
+                        //$(v).css('margin', '10px');
+                    }).mouseenter(function (e) {
+                        $(e.target).css('flex', '95 1 auto');
+                        $(e.target).siblings().css('width', 100);
+                        $(e.target).siblings().css('flex', '1 1 auto');
+                    })
+					.mouseleave(function (e) {
+						$(e.target).css('flex', '1 1 auto');
+						$(e.target).css('width', '');
+						$(e.target).siblings().css('width', '');
+					});
 
-                    let rust_code = $(v).data('code-rust');
-
-
-                    $(v).html('');
-
-
-                    if (rust_code) {
-                        $(v).append($('<iframe style="flex: 1 1 auto;overflow:scroll"/>').attr('src', rust_pen + '/?pageMode=presentation&code=' + encodeURIComponent(rust_code)));
-                    }
-
-					let php_code = $(v).data('code-php');
-                    if (php_code && php_code.trim()) {
-                        let php_code_node = $('<div class="right-code"><pre><code data-trim data-noescape class="code"></code></pre></div>');
-						php_code_node.find('.code').text(php_code);
-						$(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(php_code_node));
-						return;
-                    }
-
-                    let html_code = $(v).data('code-html');
-                    if (html_code && html_code.trim()) {
-						$(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(html_code));
-						return;
-                    }
+					$(slide).data('loaded', true)
 
                 });
 
-                $('.editor > *').each(function(i, v) {
-                    //$(v).css('margin', '10px');
-                }).mouseenter(function(e) {
-                    $(e.target).css('flex', '95 1 auto');
-                    $(e.target).siblings().css('width', 100);
-                    $(e.target).siblings().css('flex', '1 1 auto');
-                })
-                    .mouseleave(function(e) {
-                        $(e.target).css('flex', '1 1 auto');
-                        $(e.target).css('width', '');
-                        $(e.target).siblings().css('width', '');
-                    });
+
             });
 
 
@@ -1186,6 +1207,10 @@ pub use result::Error::NotFound;
 				</section>
 
 				<section>
+					<img src="img/larger_project_reexport.png" style="max-width:80%">
+				</section>
+
+				<section>
 					<h2>tests</h2>
 				</section>
 
@@ -1936,34 +1961,6 @@ fn main() { greet(&Person{}); }
 				</section>
 
 				<section>
-                    {% embed "twig/editor.html.twig" %}
-                    {% block rust %}
-struct Person;
-
-trait Greetable {
-	fn greet();
-}
-
-impl<T> Person
-	where T: Greetable
-{
-	fn greet(&self) {
-		println!("hello :)");
-	}
-}
-
-fn main() { }
-                    {% endblock %}
-					{% endembed %}
-						<aside class="notes">
-						<ul>
-							<li>wenn wir das ganze generisch formulieren, haben wir auch ein static dispatch</li>
-							<li>warum? funktion wird kopiert ...</li>
-						</ul>
-					</aside>
-				</section>
-
-				<section>
 					<h2>comparing asm</h2>
 				</section>
 
@@ -1997,16 +1994,6 @@ fn main() {
 				<section>
                     {% embed "twig/editor.html.twig" %}
                     {% block rust %}
-fn main() {
-    println!("hello :)");
-}
-                    {% endblock %}
-					{% endembed %}
-				</section>
-
-				<section>
-                    {% embed "twig/editor.html.twig" %}
-                    {% block rust %}
 struct Person;
 
 trait Greetable {
@@ -2025,6 +2012,16 @@ fn hello(v : &Greetable) {
 
 fn main() {
     hello(&Person{});
+}
+                    {% endblock %}
+					{% endembed %}
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+fn main() {
+    println!("hello :)");
 }
                     {% endblock %}
 					{% endembed %}
@@ -2146,9 +2143,6 @@ pub fn main() {}
 				</section>
 				<section>
 					<img src="img/lifetime6.png"/>
-				</section>
-				<section>
-					<img src="img/lifetime7.png"/>
 				</section>
 				<section>
 					<img src="img/lifetime8.png"/>
