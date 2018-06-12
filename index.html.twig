@@ -13,6 +13,7 @@
 		<link rel="stylesheet" href="lib/css/idea.css">
 
 		<script src="jquery-3.0.0.min.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
 
 		<style>
 			iframe {
@@ -50,74 +51,82 @@
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
 		<script type="application/javascript">
-            $(document).ready(function () {
 
-                Reveal.addEventListener('slidechanged', function (event) {
+            function prepare_slide(slide) {
+                if (!slide) {
+                    return;
+                }
 
-                    let slide = Reveal.getSlide(event.indexh + 1);
+                if ($(slide).data('loaded')) {
+                    return;
+                }
 
-                    if (!slide) {
-                        return;
-					}
 
-                    if ($(slide).data('loaded')) {
+                $(slide).find('.editor').each(function (i, v) {
+
+                    $(v).css({
+                        'height': $(document).height() - 100,
+                        'border': '1px solid silver',
+                        'display': 'flex',
+                        'justify-content': 'flex-start'
+                    });
+
+                    let rust_pen = "http://127.0.0.1:5000";
+                    //var rust_pen = "https://play.rust-lang.org/";
+
+                    let rust_code = $(v).data('code-rust');
+
+
+                    $(v).html('');
+
+
+                    if (rust_code) {
+                        $(v).append($('<iframe style="flex: 1 1 auto;overflow:scroll"/>').attr('src', rust_pen + '/?pageMode=presentation&code=' + encodeURIComponent(rust_code)));
+                    }
+
+                    let php_code = $(v).data('code-php');
+                    if (php_code && php_code.trim()) {
+                        let php_code_node = $('<div class="right-code"><pre><code data-trim data-noescape class="code"></code></pre></div>');
+                        php_code_node.find('.code').text(php_code);
+                        $(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(php_code_node));
+                        hljs.initHighlightingOnLoad(v);
                         return;
                     }
 
+                    let html_code = $(v).data('code-html');
+                    if (html_code && html_code.trim()) {
+                        $(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(html_code));
+                        hljs.initHighlightingOnLoad(v);
+                        return;
+                    }
 
-                    $(slide).find('.editor').each(function (i, v) {
+                });
 
-                        $(v).css({
-                            'height': $(document).height() - 100,
-                            'border': '1px solid silver',
-                            'display': 'flex',
-                            'justify-content': 'flex-start'
-                        });
-
-                        let rust_pen = "http://127.0.0.1:5000";
-                        //var rust_pen = "https://play.rust-lang.org/";
-
-                        let rust_code = $(v).data('code-rust');
-
-
-                        $(v).html('');
-
-
-                        if (rust_code) {
-                            console.log("frame x");
-                            $(v).append($('<iframe style="flex: 1 1 auto;overflow:scroll"/>').attr('src', rust_pen + '/?pageMode=presentation&code=' + encodeURIComponent(rust_code)));
-                        }
-
-                        let php_code = $(v).data('code-php');
-                        if (php_code && php_code.trim()) {
-                            let php_code_node = $('<div class="right-code"><pre><code data-trim data-noescape class="code"></code></pre></div>');
-                            php_code_node.find('.code').text(php_code);
-                            $(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(php_code_node));
-                            return;
-                        }
-
-                        let html_code = $(v).data('code-html');
-                        if (html_code && html_code.trim()) {
-                            $(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(html_code));
-                            return;
-                        }
-
+                $(slide).find('.editor > *').each(function (i, v) {
+                    //$(v).css('margin', '10px');
+                }).mouseenter(function (e) {
+                    $(e.target).css('flex', '95 1 auto');
+                    $(e.target).siblings().css('width', 100);
+                    $(e.target).siblings().css('flex', '1 1 auto');
+                })
+                    .mouseleave(function (e) {
+                        $(e.target).css('flex', '1 1 auto');
+                        $(e.target).css('width', '');
+                        $(e.target).siblings().css('width', '');
                     });
 
-                    $(slide).find('.editor > *').each(function (i, v) {
-                        //$(v).css('margin', '10px');
-                    }).mouseenter(function (e) {
-                        $(e.target).css('flex', '95 1 auto');
-                        $(e.target).siblings().css('width', 100);
-                        $(e.target).siblings().css('flex', '1 1 auto');
-                    })
-					.mouseleave(function (e) {
-						$(e.target).css('flex', '1 1 auto');
-						$(e.target).css('width', '');
-						$(e.target).siblings().css('width', '');
-					});
+                $(slide).data('loaded', true)
+            }
 
-					$(slide).data('loaded', true)
+            $(document).ready(function () {
+
+                prepare_slide(Reveal.getSlide(0));
+
+                Reveal.addEventListener('slidechanged', function (event) {
+
+                    prepare_slide(Reveal.getSlide(event.indexh));
+                    prepare_slide(Reveal.getSlide(event.indexh + 1));
+                    prepare_slide(Reveal.getSlide(event.indexh + 2));
 
                 });
 
@@ -568,7 +577,7 @@ fun main(args: Array<String>) {
 						</aside>
 					</aside>
 				</section>
-					
+
 				<section>
 					<img src="img/system_prgramming_languages.png">
 					<a href="https://en.wikipedia.org/wiki/System_programming_language">wikipedia.org/wiki/System_programming_language</a>
@@ -2899,8 +2908,7 @@ fn main() {
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
 		</script>
