@@ -2632,6 +2632,97 @@ fn main() {
 					</aside>
 				</section>
 
+                <section>
+                    <h2>macros</h2>
+					<aside class="notes">
+							<ul>
+								<li>die dingeger mit dem !</li>
+								<li>println und try hatten wir kennengelernt.</li>
+								<li>macros beeinflussen den ast.</li>
+								<li>macros werden vom compiler geprüft.</li>
+								<li>es gibt verschiedene varianten von macros.</li>
+							</ul>
+						</aside>
+                </section>
+
+                <section>
+                    {% embed "twig/editor.html.twig" %}
+                        {% block rust %}
+macro_rules! foo {
+    () => { println!("a"); }
+}
+
+fn main() {
+    foo!();
+    println!("b");
+}
+                        {% endblock %}
+
+                    {% endembed %}
+						<aside class="notes">
+							<ul>
+								<li>hier rufen wir foo!() auf</li>
+								<li>return einbauen ...</li>
+							</ul>
+						</aside>
+				</section>
+                <section>
+                    {% embed "twig/editor.html.twig" %}
+                        {% block rust %}
+macro_rules! foo {
+    () => { println!("a"); };
+    ($e:expr) => { println!("{}", $e); }
+}
+
+fn main() {
+    foo!(1 + 1);
+}
+                        {% endblock %}
+
+                    {% endembed %}
+						<aside class="notes">
+							<ul>
+								<li>hier rufen wir foo!() auf</li>
+								<li>return einbauen ...</li>
+							</ul>
+						</aside>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                        {% block php %}
+// golang
+f := createFile("/tmp/defer.txt")
+defer closeFile(f)
+writeFile(f)
+                        {% endblock %}
+
+                    {% endembed %}
+						<aside class="notes">
+							<ul>
+								<li>go z.b. hat ein defer statement</li>
+							</ul>
+						</aside>
+				</section>
+                <section>
+                    {% embed "twig/editor.html.twig" %}
+                        {% block rust %}
+#[macro_use(defer)] extern crate scopeguard;
+
+use scopeguard::guard;
+
+fn main() {
+    defer!(println!("1"));
+    println!("2");
+    panic!();
+}
+                        {% endblock %}
+
+                    {% endembed %}
+				</section>
+				<section>
+					<h2>asm, brainfuck, await, ...</h2>
+				</section>
 				<section>
 					<h2>bonus: lifetime</h2>
 				</section>
