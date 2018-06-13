@@ -89,14 +89,14 @@
                         let php_code_node = $('<div class="right-code"><pre><code data-trim data-noescape class="code"></code></pre></div>');
                         php_code_node.find('.code').text(php_code);
                         $(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(php_code_node));
-                        hljs.initHighlightingOnLoad(v);
+                        hljs.highlightBlock(v);
                         return;
                     }
 
                     let html_code = $(v).data('code-html');
                     if (html_code && html_code.trim()) {
                         $(v).append($('<div style="flex: 1 1 auto;overflow:scroll"/>').html(html_code));
-                        hljs.initHighlightingOnLoad(v);
+                        hljs.highlightBlock(v);
                         return;
                     }
 
@@ -217,6 +217,13 @@ echo "hello rheinjug";
 					</section>
 
 					<section data-background="img/rust_rain.gif">
+						<aside class="notes">
+							<ul>
+								<li>sanft mit rust zu berieseln</li>
+								<li>wenn ich zu schnell werden sagt.</li>
+								<li>bitte stellt gerne zwischenfragen u.s.w.</li>
+							</ul>
+						</aside>
 					</section>
 
 					<section>
@@ -237,7 +244,7 @@ echo "hello rheinjug";
 							</p>
 							<ul>
 								<li>-</li>
-								<li>neue versionen werden gegen alles was im packagemanager existiert getestet</li>
+								<li>gegen alle packete im packagemanager (cargo) getestet</li>
 								<li>entwickelt von mozilla weil C++ für Firefox nicht ausreichend skaliert</li>
 								<li>
 									<ul>
@@ -248,6 +255,8 @@ echo "hello rheinjug";
 								<li>Tooling kommt aus der Ruby ecke, sehr einfach!</li>
 								<li>alles dreht sich um Performance (sehr spannend wie gelöst)</li>
 								<li>rusts stärke ist, dass es nicht kompiliert</li>
+								<li>concurrency war immer unsafe, rust versuchts zu verändern.</li>
+								<li>OS...</li>
 							</ul>
 						</aside>
 					</section>
@@ -262,15 +271,25 @@ echo "hello rheinjug";
 
 						<aside class="notes">
 							<ul>
+								<li>kurze warnung</li>
 								<li>harte lernkurve - nicht einfach ins team werfen</li>
 								<li>sehr expliziter syntax</li>
 							</ul>
 						</aside>
 					</section>
 
+				{#
 					<section>
 						<img src="img/rust_vs_fo_choose_go.png" />
+						<aside class="notes">
+							<ul>
+								<li>rust und go werden oft verglichten.</li>
+								<li>rust hat nichts mit go zutun, kamen zu ähnlicher zeit raus</li>
+								<li></li>
+							</ul>
+						</aside>
 					</section>
+				#}
 
 					<section>
 						<h2>Basics</h2>
@@ -807,7 +826,17 @@ pub fn main() {
 }
 					{% endblock %}
 					{% endembed %}
+{#
 
+pub fn greet(name : impl AsRef<str>) {
+	println!("Hello {}", name.as_ref());
+}
+
+pub fn greet(name : impl ::std::fmt::Display) {
+	println!("Hello {}", name);
+}
+
+#}
 
 					<aside class="notes">
 						<ul>
@@ -830,6 +859,10 @@ pub fn main() {
 	let name = "Rheinjug";
 	greet(&name);
 }
+
+// pub fn greet(name : impl AsRef<str>) {
+// 	println!("Hello {}", name.as_ref());
+// }
 					{% endblock %}
 					{% endembed %}
 
@@ -847,6 +880,8 @@ pub fn main() {
 							</li>
 							<li>beispiel klar?</li>
 							<li>warum nicht &String</li>
+							<li>as ref ist static, (zero cost)</li>
+							<li>wir kommen später noch zu traits. solche trait annotationen lassen sich kombinieren, wenns z.b. copy & str sein soll</li>
 						</ul>
 					</aside>
 				</section>
@@ -931,6 +966,7 @@ pub fn main() {
 					<aside class="notes">
 						<ul>
 							<li>Rust hat keine runtime und ist daher quasi überall einsetzbar.</li>
+							<li>LLVM -> alle Optimierungen.</li>
 							<li>graalvm ist serh interessant</li>
 							<li>rust lässt sich auch von C aus callen, daher quasi überall einsetzbar</li>
 							<li>webassemly ist auch sehr interessant. nicht nur fürs web. -> später ggf. mehr</li>
@@ -2034,6 +2070,11 @@ fn main() {
 }
                     {% endblock %}
 					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>static</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -2060,6 +2101,11 @@ fn main() {
 }
                     {% endblock %}
 					{% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>dynamic</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -2250,7 +2296,7 @@ fn main() {
 				</section>
 
 				<section>
-                    <img src="img/code_heap_stack.png" style="max-width:60%"/>
+                    <img src="img/code_heap_stack.png" style="max-width:40%"/>
 					<aside class="notes">
 						<ul>
 							<li>3 bereiche wo sich code aufhalten kann.</li>
