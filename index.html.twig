@@ -941,11 +941,28 @@ pub fn main() {
 				</section>
 
 				<section>
-					<h2>namespaces / finding classes</h2>
+					<h2>namespaces, modules / finding "classes"</h2>
 					<aside class="notes">
 						<ul>
 							<li>erzähl nicht viel drüber</li>
-							<li>streife das nur, weil ich es in GO ganz drauenhaft finde</li>
+							<li>streife das nur, weil ich es in GO ganz grauenhaft finde</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+extern crate foo;
+mod bar;
+use bar::bazz;
+                    {% endblock %}
+                    {% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>extern crate inkludiert biblipthek (braucht man nur einmalig)</li>
+							<li>mod foo; inkludiert datei</li>
+							<li>use erlaubt die nutzung, aliases definieren u.s.w.</li>
 						</ul>
 					</aside>
 				</section>
@@ -977,7 +994,19 @@ mod network {
                     {% endembed %}
 					<aside class="notes">
 						<ul>
+							<li>module lassen sich auch in einer datei definieren, auch submodule</li>
+							<li>es ist auch möglich module zu reexportieren., beispiel folgt.</li>
+						</ul>
+					</aside>
+				</section>
 
+				<section>
+					<img src="img/larger_project_reexport.png" style="max-width:80%">
+					<aside class="notes">
+						<ul>
+							<li>rust ist für große bibliotheken -> stabile interfaces</li>
+							<li>komplexe lib, einfaches interface</li>
+							<li>api muss nicht interne modulstruktur sein.</li>
 						</ul>
 					</aside>
 				</section>
@@ -1209,9 +1238,6 @@ pub use result::Error::NotFound;
 					</aside>
 				</section>
 
-				<section>
-					<img src="img/larger_project_reexport.png" style="max-width:80%">
-				</section>
 
 				<section>
 					<h2>tests</h2>
@@ -1302,6 +1328,27 @@ fn main() {
 	}
 
 	println!("{}", a);
+}
+                    {% endblock %}
+                    {% endembed %}
+					<aside class="notes">
+						<ul>
+							<li>etliche variationen (unitialisiert / if return value))</li>
+							<li>Rust -> safe</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+                    {% embed "twig/editor.html.twig" %}
+                    {% block rust %}
+struct Person;
+
+fn main() {
+
+	let a = Person {};
+	let b = Box::new(Person);
+
 }
                     {% endblock %}
                     {% endembed %}
