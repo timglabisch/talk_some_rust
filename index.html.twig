@@ -161,7 +161,7 @@ echo "hello rheinjug";
                     {% endembed %}
 						<aside class="notes">
 							<ul>
-								<li>Hi!</li>
+								<li>Hi! Vielen Dank das ich da sein darf - nicht so java lastig :).</li>
 								<li>ich hab euch auf der ersten slide schon code mitgebracht.</li>
 								<li>es ist wichtig, dass ihr das halbwegs gut lesen könnt, sonst wird der vortrag sehr langweilig.</li>
 								<li>nun zum code. - was haben wir hier? ja eine begrüßung</li>
@@ -716,14 +716,8 @@ fun main(args: Array<String>) {
 					<img src="img/fearless_in_rust.png">
 					<aside class="notes">
 						<ul>
-							<li>rust ist völlig konträr</li>
-							<li>ich hab dazu mal ein quote</li>
-							<li>
-								<ul>
-									<li>ich kann das super nachvollziehen</li>
-									<li>... wie macht rust das?</li>
-								</ul>
-							</li>
+							<li>wäre in php so nicht möglich ...</li>
+							<li>dann fühlt man sich schlecht, weil mans doch gemacht hat</li>
 						</ul>
 					</aside>
 				</section>
@@ -1537,6 +1531,7 @@ pub fn main() {
                     {% embed "twig/editor.html.twig" %}
 
 					{% block rust %}
+
 use std::num::ParseIntError;
 
 fn multiply(first_number_str: &str, second_number_str: &str)
@@ -1547,16 +1542,10 @@ fn multiply(first_number_str: &str, second_number_str: &str)
     Ok(first_number * second_number)
 }
 
-fn print(result: Result<i32, ParseIntError>) {
-    match result {
-        Ok(n)  => println!("n is {}", n),
-        Err(e) => println!("Error: {}", e),
-    }
-}
 
 fn main() {
-    print(multiply("10", "2"));
-    print(multiply("t", "2"));
+    println!("{:?}", multiply("10", "2"));
+    println!("{:?}", multiply("t", "2"));
 }
 
 					{% endblock %}
@@ -2374,7 +2363,7 @@ fn main() {
 					{% block rust %}
 fn main() {
 
-    for i in [1, 2, 3] {
+    for i in [1, 2, 3].iter() {
 		println!("{}", i);
 	}
 
